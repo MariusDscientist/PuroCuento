@@ -1,0 +1,422 @@
+@import url('https://fonts.googleapis.com/css2?family=Archivo+Black&display=swap');
+
+
+body {
+    margin: 0;
+    font-family: 'Poppins', sans-serif;
+    background-color: #f8b5b2;
+    color: #3b2f2f;
+  }
+  
+
+
+  .logo-container {
+    width: clamp(150px, 75vw, 1080px); /* mismo ancho para imagen y texto */
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start; /* alinea a la izquierda */
+  }
+  
+  .logo {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+    margin-bottom: 1.5rem;
+    position: relative;
+    transform: translateX(1rem);
+  }
+  
+  .logo span {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+  }
+  
+  .logo img {
+    width: 100%;
+    height: auto;
+  }
+
+  
+  /*--------------------------------*/
+  .subtitle {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: clamp(0.5rem, 4vw, 3rem); /* mínimo, ideal, máximo */
+    line-height: 1.4;
+    color: black;
+    margin: 0;
+    letter-spacing: 0.5px;
+    text-align: left;
+  }
+
+
+  
+
+  /*--------------------------------*/
+
+
+  .nav-links {
+    margin-top: 3rem;
+    padding: 0.5rem 0 2rem 0; /* más espacio abajo */
+    display: flex;
+    gap: 2rem;
+    flex-wrap: wrap;
+    justify-content: center;
+    border-top: none; /* sin bordes */
+    background: none; /* sin fondo */
+  }
+  
+  .nav-links a {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem; /* espacio entre texto e ícono */
+    text-decoration: none;
+    background: none;
+    color: #000000;
+    padding: 0.3rem 0.5rem;
+    border: none;
+    font-weight: 300; /* más delgada */
+    font-size: 1rem;
+    transition: color 0.3s ease;
+  }
+  
+  .nav-links a:hover {
+    color: #555; /* tono más suave al pasar */
+  }
+  
+  /* Estilo para el ícono (puedes cambiarlo por <svg> o una fuente de íconos) */
+  .nav-links a .icon {
+    font-size: 1.1rem;
+    opacity: 0.7;
+  }
+  
+  
+  /*--------------------------------*/
+  .legacy {
+    position: relative;
+    padding: 4rem 2rem;
+    color: #fff;
+    text-align: center;
+    background: url('../static/img/purocuento.jpg') no-repeat center center/cover;
+    z-index: 1;
+  }
+  
+  .legacy::before {
+    content: "";
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(0, 0, 0, 0.55); /* sombra negra */
+    z-index: -1;
+  }
+  
+  .legacy h2 {
+    color: #fff;
+    margin-bottom: 2rem;
+    font-size: 2rem;
+    position: relative;
+  }
+  
+  .legacy-content {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 2rem;
+    max-width: 100%;
+    margin: 0 auto;
+    position: relative;
+  }
+  
+  .legacy-block {
+    flex: 1 1 100%;
+    padding: 1.5rem;
+    border-left: 4px solid #ffd6a1;
+    background-color: rgba(255, 255, 255, 0.1);
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    text-align: left;
+    border-radius: 8px;
+    color: #fff;
+    backdrop-filter: blur(5px);
+  }
+  
+  .legacy-block h3 {
+    margin-bottom: 0.5rem;
+    color: #ffe3c7;
+    font-size: 1.3rem;
+  }
+  
+  .legacy-block p {
+    font-size: 1rem;
+    color: #f8f8f8;
+    line-height: 1.6;
+  }
+  
+
+
+  
+  /* ✅ Media query para pantallas grandes: bloques uno al lado del otro */
+  @media (min-width: 768px) {
+    .legacy-content {
+      flex-direction: row;
+    }
+  }
+
+  /* En pantallas grandes: bloques lado a lado */
+@media (min-width: 768px) {
+  .legacy-block {
+    flex: 1 1 48%; /* 2 columnas con espacio */
+  }
+}
+
+@media (min-width: 1024px) {
+  .legacy-block {
+    flex: 1 1 31%; /* 3 columnas con espacio */
+  }
+}
+
+ /*--------------------------------*/ 
+
+ .cuenteros-timeline {
+  padding: 2rem 1rem;
+  background-color: #e3bc78;
+  width: 100%;
+  box-sizing: border-box;
+  position: relative;
+}
+
+.cuenteros-timeline h2 {
+  text-align: center;
+  color: #ffffff;
+  font-size: 2rem;
+  margin-bottom: 2rem;
+}
+
+/* Línea central */
+.cuenteros-timeline::before {
+  content: '';
+  position: absolute;
+  top: 0; 
+  bottom: 0;
+  left: 50%;
+  width: 2px;
+  background-color: #ffd38d;
+  z-index: 0;
+}
+
+/* Cada evento ocupa 50% del ancho */
+.cuentero-evento {
+  width: 50%;
+  position: relative;
+  margin: 2rem 0;
+  z-index: 1;
+}
+
+.cuentero-contenido {
+  display: flex;
+  gap: 1.5rem;
+  align-items: center;
+  background-color: #fffaf3;
+  padding: 1rem;
+  border-radius: 12px;
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.05);
+  box-sizing: border-box;
+}
+
+.cuentero-imagen img {
+  width: 120px;
+  height: auto;
+  border-radius: 8px;
+  object-fit: cover;
+  flex-shrink: 0;
+}
+
+/* Texto */
+.cuentero-texto {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.cuentero-texto h3 {
+  margin: 0 0 0.5rem;
+  font-size: 1.2rem;
+  color: #371c00;
+}
+
+.cuentero-texto p {
+  color: #3d3d3d;
+  font-size: 1rem;
+  line-height: 1.5;
+}
+
+/* Intercalado */
+.cuentero-evento.izquierda {
+  right: 1%;
+  justify-content: flex-end;
+  text-align: left;
+}
+
+.cuentero-evento.derecha {
+  left: 51%;
+  justify-content: flex-start;
+  text-align: left;
+}
+
+/* Intercalado */
+.cuentero-evento.izquierda .cuentero-contenido {
+  flex-direction: row;
+  margin-right: auto;
+}
+
+.cuentero-evento.derecha .cuentero-contenido {
+  flex-direction: row-reverse;
+  margin-left: auto;
+}
+
+.cuentero-evento.derecha .cuentero-texto {
+  align-items: flex-end;
+}
+
+/* Responsive: en pantallas pequeñas se apilan */
+@media (max-width: 768px) {
+  .cuentero-evento {
+    width: 100%;
+    left: 0 !important;
+  }
+
+  .cuentero-contenido {
+    flex-direction: column !important;
+    text-align: center;
+  }
+
+  .cuentero-texto {
+    align-items: center;
+  }
+
+  .cuenteros-timeline::before {
+    left: 20px; /* mueve la línea para pantallas pequeñas */
+  }
+}
+
+
+  
+
+    /*--------------------------------*/
+    
+  .lajulia-cards {
+    display: flex;
+    flex-direction: column;
+    padding: 4rem 2rem;
+    background-color: #fffaf3;
+    gap: 2rem;
+    align-items: center;
+  }
+  
+  .lajulia-img {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex: 1;
+  }
+  
+  .lajulia-img img {
+    width: 100%;
+    max-width: 450px;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    object-fit: cover;
+  }
+  
+  .lajulia-info {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    flex: 1;
+    max-width: 600px;
+  }
+  
+  .card-item {
+    background-color: #ffffff;
+    padding: 1.5rem;
+    border-left: 4px solid #d99852;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+  }
+  
+  .card-item h3 {
+    margin-bottom: 0.5rem;
+    color: #6b3e26;
+    font-size: 1.3rem;
+  }
+  
+  .card-item p {
+    font-size: 1rem;
+    color: #3d3d3d;
+    line-height: 1.6;
+  }
+  
+  @media (min-width: 992px) {
+    .lajulia-cards {
+      flex-direction: row;
+      justify-content: center;
+      align-items: center; /* centra verticalmente */
+    }
+  
+    .lajulia-info {
+      padding-left: 2rem;
+    }
+  }
+  .card-item {
+    background-color: #ffffff;
+    padding: 1.5rem;
+    border-left: 4px solid #d99852;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+  
+  .card-item:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.12);
+  }
+  .proximos-eventos {
+    padding: 4rem 2rem;
+    background-color: #f9f4ec;
+    text-align: center;
+  }
+  
+  .proximos-eventos h2 {
+    color: #5a2d1c;
+    font-size: 2rem;
+    margin-bottom: 2rem;
+  }
+  
+  .proximos-eventos ul {
+    list-style: none;
+    padding: 0;
+    max-width: 600px;
+    margin: 0 auto;
+  }
+  
+  .proximos-eventos li {
+    background-color: #fff;
+    border-left: 4px solid #d99852;
+    margin-bottom: 1rem;
+    padding: 1rem 1.5rem;
+    border-radius: 6px;
+    font-size: 1.1rem;
+    color: #3e3e3e;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+    transition: transform 0.2s ease;
+  }
+  
+  .proximos-eventos li:hover {
+    transform: translateX(5px);
+  }
+      
+  
