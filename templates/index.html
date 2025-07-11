@@ -1,171 +1,429 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Puro Cuento | Al calor de la palabra viva</title>
-  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
-  <!-- AOS: Animate on Scroll Library -->
-  <link href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
-  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600&display=swap" rel="stylesheet">
-
-
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Colectivo de Narradores Orales - La Voz del Viento</title>
+    <!-- Enlace a Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Configuración de Tailwind para colores personalizados y fuentes -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'tierra-arcilla': '#B36B00',
+                        'marfil-calido': '#FDF6EC',
+                        'azul-noche': '#1C1C3B',
+                        'verde-musgo': '#3A5A40',
+                        'toque-dorado': '#D4AF37', // Un tono dorado para detalles místicos
+                    },
+                    fontFamily: {
+                        'playfair-display-sc': ['"Playfair Display SC"', 'serif'],
+                        'lora': ['Lora', 'serif'],
+                        'cormorant-garamond': ['"Cormorant Garamond"', 'serif'],
+                        'im-fell-dw-pica': ['"IM Fell DW Pica"', 'serif'],
+                        'crimson-text': ['"Crimson Text"', 'serif'],
+                        'merriweather': ['Merriweather', 'serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <!-- Enlace a Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display+SC:wght@400;700&family=Lora:ital,wght@0,400;0,700;1,400&family=Cormorant+Garamond:wght@400;700&family=IM+Fell+DW+Pica&family=Crimson+Text:wght@400;700&family=Merriweather:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        /* Estilos personalizados para el scroll animado y microinteracciones */
+        html {
+            scroll-behavior: smooth;
+        }
+        .section-fade-in {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+        }
+        .section-fade-in.is-visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        /* Estilo para el fondo con textura de papel antiguo (ejemplo simple) */
+        .bg-paper-texture {
+            background-image: url('https://placehold.co/1920x1080/FDF6EC/B36B00?text=Textura+de+Papel+Antiguo');
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-attachment: fixed; /* Para un efecto de paralaje suave */
+        }
+        /* Estilo para el mosaico de galería */
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1rem;
+        }
+        .gallery-item {
+            position: relative;
+            overflow: hidden;
+            border-radius: 0.75rem; /* rounded-xl */
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease-in-out;
+        }
+        .gallery-item:hover {
+            transform: scale(1.05);
+        }
+        .gallery-item img {
+            width: 100%;
+            height: 200px; /* Altura fija para las imágenes de la galería */
+            object-fit: cover;
+            border-radius: 0.75rem;
+        }
+        .gallery-item video {
+            width: 100%;
+            height: 200px; /* Altura fija para los videos de la galería */
+            object-fit: cover;
+            border-radius: 0.75rem;
+        }
+    </style>
 </head>
-<body>
-  <header class="hero">
-    <div class="logo-container">
-      <h1 class="logo">
-        <span>Puro Cuento</span>
-        <img src="{{ url_for('static', filename='img/logoletra1.png') }}" alt="Puro Cuento: Al calor de la palabra viva">
-      </h1>
+<body class="font-lora text-azul-noche bg-marfil-calido">
 
-    </div>
-    <nav class="nav-links">
-      <a href="#">Inicio <i class="fas fa-home icon"></i></a>
-      <a href="#">Eventos <i class="fas fa-calendar-alt icon"></i></a>
-      <a href="#">Historias <i class="fas fa-book-open icon"></i></a>
-      <a href="#">Contacto <i class="fas fa-envelope icon"></i></a>
+    <!-- Navegación lateral flotante opcional (para desktop) -->
+    <nav class="hidden lg:block fixed left-4 top-1/2 -translate-y-1/2 z-50 p-4 bg-azul-noche bg-opacity-80 rounded-xl shadow-lg">
+        <ul class="space-y-4">
+            <li><a href="#inicio" class="text-marfil-calido hover:text-toque-dorado font-playfair-display-sc text-lg transition duration-300 ease-in-out">Inicio</a></li>
+            <li><a href="#quienes-somos" class="text-marfil-calido hover:text-toque-dorado font-playfair-display-sc text-lg transition duration-300 ease-in-out">Quiénes Somos</a></li>
+            <li><a href="#narradores" class="text-marfil-calido hover:text-toque-dorado font-playfair-display-sc text-lg transition duration-300 ease-in-out">Narradores</a></li>
+            <li><a href="#eventos" class="text-marfil-calido hover:text-toque-dorado font-playfair-display-sc text-lg transition duration-300 ease-in-out">Eventos</a></li>
+            <li><a href="#galeria" class="text-marfil-calido hover:text-toque-dorado font-playfair-display-sc text-lg transition duration-300 ease-in-out">Galería</a></li>
+            <li><a href="#magia-contar" class="text-marfil-calido hover:text-toque-dorado font-playfair-display-sc text-lg transition duration-300 ease-in-out">La Magia</a></li>
+            <li><a href="#contacto" class="text-marfil-calido hover:text-toque-dorado font-playfair-display-sc text-lg transition duration-300 ease-in-out">Contacto</a></li>
+        </ul>
     </nav>
-  </header>
-  <section class="legacy">
-    <h2>La Magia de la Narración Oral: Un Legado ancestral</h2>
-    <div class="legacy-content">
-      <div class="legacy-block">
-        <h3>Un sueño contado en voz alta</h3>
-        <p>
-          Puro Cuento es un colectivo de narración oral nacido del deseo de ofrecerle a Pereira un espacio libre e independiente donde la palabra viva tenga el centro. 
-          este proyecto surge como un sueño compartido y una oportunidad tangible: crear un escenario abierto a la imaginación.
-        </p>
-      </div>
-    
-      <div class="legacy-block">
-        <h3>La magia de La Julia</h3>
-        <p>
-          En cada función, la cercanía con el público, la espontaneidad del espacio y la intimidad de las historias hacen de cada encuentro algo único e irrepetible.  
-          La narración sucede en presente, y al terminar, se desvanece, dejando huellas profundas en quienes la vivieron.
-        </p>
-      </div>
-    
-      <div class="legacy-block">
-        <h3>Una comunidad que escucha</h3>
-        <p>
-          Puro Cuento es una comunidad abierta. Narradores de distintos territorios, estilos y trayectorias que comparten su voz con nosotros. 
-          Creemos en la creación colectiva y en la fuerza del arte cuando se da desde el corazón. Escuchamos, contamos y crecemos juntos.
-        </p>
-      </div>
-    
-      <div class="legacy-block">
-        <h3>Sembrar palabra en la ciudad</h3>
-        <p>
-          Soñamos con que la narración oral se reconozca como un arte vivo y necesario en Pereira. 
-          Queremos que de Puro Cuento nazcan más espacios, más colectivos, más encuentros donde la palabra sea protagonista. 
-          Que la ciudad escuche, que se cuente a sí misma, y que descubra que en cada historia compartida hay una semilla de memoria.
-        </p>
-      </div>
-    </div>
-    
-  </section>
-  
-  <section class="cuenteros-timeline">
-    <h2>Narradores Orales</h2>
-  
-    <div class="cuentero-evento izquierda">
-      <div class="cuentero-contenido">
-        <div class="cuentero-imagen">
-          <img src="{{ url_for('static', filename='img/ancestral.jpg') }}" alt="Marius Cuentero">
-        </div>
-        <div class="cuentero-texto">
-          <h3>@Los_mil_y_un_marius</h3>
-          <p>
-            Narrador de cuentos desde hace 8 años, formado entre talleres, libros y el teatro popular. Su estilo mezcla humor, cuentos de tradición oral, indígenas, urbanos y literatura, con una voz que busca mover emociones y despertar imágenes. Ha narrado en festivales, colegios, bares y parques de todo el país, y es creador del espacio <strong>Puro Cuento</strong> en Pereira.
-          </p>
-        </div>
-      </div>
-    </div>
-    
-  
-    <div class="cuentero-evento derecha">
-      <div class="cuentero-contenido">
-        <div class="cuentero-imagen">
-          <img src="{{ url_for('static', filename='img/campesino.jpg') }}" alt="Puro Cuento: Al calor de la palabra viva">
-        </div>
-        <div class="cuentero-texto">
-          <h3>María Gómez</h3>
-          <p>Especialista en cuentos indígenas y saberes ancestrales narrados con poesía...</p>
-        </div>
-      </div>
-    </div>
 
-    <div class="cuentero-evento izquierda">
-      <div class="cuentero-contenido">
-        <div class="cuentero-imagen">
-          <img src="{{ url_for('static', filename='img/filosofo.jpg') }}" alt="Puro Cuento: Al calor de la palabra viva">
+    <!-- Sección de Inicio (Hero) -->
+    <section id="inicio" class="relative h-screen flex items-center justify-center text-center overflow-hidden bg-cover bg-center bg-paper-texture" style="background-image: url('https://placehold.co/1920x1080/1C1C3B/FDF6EC?text=Imagen+Inmersiva+Hero');">
+        <!-- Capa de superposición para un efecto onírico -->
+        <div class="absolute inset-0 bg-azul-noche opacity-60"></div>
+        <div class="relative z-10 p-8 max-w-4xl mx-auto rounded-xl bg-marfil-calido bg-opacity-80 shadow-2xl">
+            <h1 class="font-playfair-display-sc text-5xl md:text-7xl text-tierra-arcilla mb-6 leading-tight animate-pulse">
+                Donde las palabras danzan y los sueños se tejen.
+            </h1>
+            <p class="text-xl md:text-2xl text-azul-noche mb-10 font-lora italic">
+                "Cada historia es un aliento que viaja por el viento, buscando un corazón donde anidar."
+            </p>
+            <div class="flex flex-col sm:flex-row justify-center gap-4">
+                <a href="#eventos" class="bg-tierra-arcilla hover:bg-toque-dorado text-marfil-calido font-bold py-3 px-8 rounded-full shadow-lg transition duration-300 ease-in-out transform hover:scale-105">
+                    Descubre Nuestro Próximo Evento
+                </a>
+                <a href="#quienes-somos" class="bg-verde-musgo hover:bg-azul-noche text-marfil-calido font-bold py-3 px-8 rounded-full shadow-lg transition duration-300 ease-in-out transform hover:scale-105">
+                    Conoce Nuestra Magia
+                </a>
+            </div>
         </div>
-        <div class="cuentero-texto">
-          <h3>Juan Pérez</h3>
-          <p>Cuentero de tradición popular, mezcla humor y cuentos del eje cafetero...</p>
-        </div>
-      </div>
-    </div>
-  
-    <div class="cuentero-evento derecha">
-      <div class="cuentero-contenido">
-        <div class="cuentero-imagen">
-          <img src="{{ url_for('static', filename='img/humorista.jpg') }}" alt="Puro Cuento: Al calor de la palabra viva">
-        </div>
-        <div class="cuentero-texto">
-          <h3>María Gómez</h3>
-          <p>Especialista en cuentos indígenas y saberes ancestrales narrados con poesía...</p>
-        </div>
-      </div>
-    </div>
-  
-  </section>
-  
+    </section>
 
+    <!-- Sección ¿Quiénes somos? -->
+    <section id="quienes-somos" class="py-20 px-6 md:px-12 bg-marfil-calido section-fade-in">
+        <div class="max-w-6xl mx-auto text-center">
+            <h2 class="font-playfair-display-sc text-4xl md:text-5xl text-tierra-arcilla mb-10 border-b-2 border-tierra-arcilla pb-4 inline-block">¿Quiénes Somos?</h2>
+            <div class="grid md:grid-cols-2 gap-12 items-center">
+                <div class="text-left">
+                    <p class="text-lg md:text-xl text-azul-noche mb-6 leading-relaxed">
+                        Somos "La Voz del Viento", un colectivo de narradores orales nacidos de la ancestral tradición de contar historias bajo el manto estrellado. Nuestro propósito es tejer puentes entre el pasado y el presente, entre el imaginario colectivo y la realidad palpable, a través del poder transformador de la palabra hablada.
+                    </p>
+                    <p class="text-lg md:text-xl text-azul-noche leading-relaxed">
+                        Nacimos de la necesidad de mantener viva la llama de la oralidad en un mundo que a menudo olvida el valor de la escucha. Nuestros valores se cimentan en el respeto por la tradición, la creatividad sin límites, la conexión humana y la pasión por compartir la magia que reside en cada relato. Cada narrador es un guardián de voces, un tejedor de sueños y un soplador de vientos que llevan las historias a cada rincón.
+                    </p>
+                </div>
+                <div>
+                    <img src="https://placehold.co/600x400/3A5A40/FDF6EC?text=Ilustracion+Arbol+Parlante" alt="Ilustración de un árbol parlante" class="rounded-xl shadow-xl mx-auto w-full h-auto object-cover">
+                </div>
+            </div>
+        </div>
+    </section>
 
-  <section class="lajulia-cards">
-    <div class="lajulia-img">
-      <img src="{{ url_for('static', filename='img/parque_lajulia.jpg') }}" alt="Parque La Julia en Pereira">
-    </div>
-    <div class="lajulia-info">
-      <div class="card-item" data-aos="fade-up">
-        <h3>Cada Quince Días</h3>
-        <p>
-          Marca tu calendario: el primer y tercer sábado de cada mes, nos encontramos para tejer historias bajo el cielo estrellado de Pereira.
-        </p>
-      </div>
-      <div class="card-item" data-aos="fade-up" data-aos-delay="100">
-        <h3>Parque La Julia</h3>
-        <p>
-          Nuestro escenario natural es un parque moderno en la Circunvalar de Pereira. Con gradas, mesas y carpa, se transforma en un oasis narrativo.
-        </p>
-      </div>
-      <div class="card-item" data-aos="fade-up" data-aos-delay="200">
-        <h3>Un Encuentro de Almas</h3>
-        <p>
-          No es solo escuchar. Es sentir, reír, llorar y compartir. Una experiencia cercana, donde la palabra une corazones en cada cuento.
-        </p>
-      </div>
-    </div>
-  </section>
-  <section class="proximos-eventos">
-    <h2>Próximas Fechas de Puro Cuento</h2>
-    <ul>
-      {% for fecha in fechas %}
-        <li data-aos="fade-up" data-aos-delay="{{ loop.index0 * 50 }}">{{ fecha }}</li>
-      {% endfor %}
-    </ul>
-  </section>
-  
-  
-  <script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
-  <script>
-    AOS.init({
-      duration: 800,
-      once: true
-    });
-  </script>     
+    <!-- Sección Narradores -->
+    <section id="narradores" class="py-20 px-6 md:px-12 bg-verde-musgo text-marfil-calido section-fade-in">
+        <div class="max-w-6xl mx-auto text-center">
+            <h2 class="font-playfair-display-sc text-4xl md:text-5xl text-marfil-calido mb-10 border-b-2 border-marfil-calido pb-4 inline-block">Nuestros Narradores</h2>
+            <p class="text-lg mb-12">Conoce a los guardianes de las historias, cada uno con su voz única y su magia particular.</p>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
+                <!-- Ficha de Cuentero 1 -->
+                <div class="bg-azul-noche rounded-xl shadow-lg p-6 transform hover:scale-105 transition duration-300 ease-in-out">
+                    <img src="https://placehold.co/200x200/B36B00/FDF6EC?text=Foto+Narrador+1" alt="Foto de Narrador 1" class="w-32 h-32 rounded-full mx-auto mb-4 object-cover border-4 border-tierra-arcilla">
+                    <h3 class="font-playfair-display-sc text-3xl text-toque-dorado mb-2">El Caminante de Cuentos</h3>
+                    <p class="font-lora italic text-marfil-calido mb-4">Estilo: Narración épica y mitológica</p>
+                    <p class="text-sm text-marfil-calido mb-4">
+                        Bio poética: Sus palabras son ríos que fluyen desde tiempos inmemoriales, trayendo consigo la sabiduría de los ancestros y el eco de leyendas olvidadas. Especialista en mitos y epopeyas que transportan al oyente a mundos lejanos.
+                    </p>
+                    <p class="text-sm text-marfil-calido">Disponibilidad: Eventos públicos y privados, talleres de creación.</p>
+                </div>
+                <!-- Ficha de Cuentero 2 -->
+                <div class="bg-azul-noche rounded-xl shadow-lg p-6 transform hover:scale-105 transition duration-300 ease-in-out">
+                    <img src="https://placehold.co/200x200/B36B00/FDF6EC?text=Foto+Narrador+2" alt="Foto de Narrador 2" class="w-32 h-32 rounded-full mx-auto mb-4 object-cover border-4 border-tierra-arcilla">
+                    <h3 class="font-playfair-display-sc text-3xl text-toque-dorado mb-2">La Tejedora de Risas</h3>
+                    <p class="font-lora italic text-marfil-calido mb-4">Estilo: Cuentos humorísticos y cotidianos</p>
+                    <p class="text-sm text-marfil-calido mb-4">
+                        Bio poética: Con una sonrisa en la voz y un brillo en la mirada, transforma lo ordinario en extraordinario. Sus relatos están llenos de ingenio y situaciones disparatadas que arrancan carcajadas y reflexiones.
+                    </p>
+                    <p class="text-sm text-marfil-calido">Disponibilidad: Fiestas infantiles, eventos familiares, cafés literarios.</p>
+                </div>
+                <!-- Ficha de Cuentero 3 -->
+                <div class="bg-azul-noche rounded-xl shadow-lg p-6 transform hover:scale-105 transition duration-300 ease-in-out">
+                    <img src="https://placehold.co/200x200/B36B00/FDF6EC?text=Foto+Narrador+3" alt="Foto de Narrador 3" class="w-32 h-32 rounded-full mx-auto mb-4 object-cover border-4 border-tierra-arcilla">
+                    <h3 class="font-playfair-display-sc text-3xl text-toque-dorado mb-2">El Susurrante de Sueños</h3>
+                    <p class="font-lora italic text-marfil-calido mb-4">Estilo: Relatos de misterio y fantasía</p>
+                    <p class="text-sm text-marfil-calido mb-4">
+                        Bio poética: Susurra al oído del alma, desvelando mundos ocultos y criaturas fantásticas. Sus historias son un viaje a lo desconocido, donde la imaginación no tiene límites y cada sombra esconde un secreto.
+                    </p>
+                    <p class="text-sm text-marfil-calido">Disponibilidad: Noches de cuentos, eventos temáticos, festivales de fantasía.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Sección Eventos Próximos -->
+    <section id="eventos" class="py-20 px-6 md:px-12 bg-marfil-calido section-fade-in">
+        <div class="max-w-6xl mx-auto text-center">
+            <h2 class="font-playfair-display-sc text-4xl md:text-5xl text-tierra-arcilla mb-10 border-b-2 border-tierra-arcilla pb-4 inline-block">Eventos Próximos</h2>
+            <p class="text-lg text-azul-noche mb-12">No te pierdas la oportunidad de sumergirte en nuevas historias. ¡Te esperamos!</p>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Tarjeta de Evento 1 -->
+                <div class="bg-white rounded-xl shadow-lg overflow-hidden transform hover:scale-105 transition duration-300 ease-in-out border border-tierra-arcilla">
+                    <img src="https://placehold.co/400x250/B36B00/FDF6EC?text=Evento+Luna+Llena" alt="Imagen del Evento 1" class="w-full h-48 object-cover">
+                    <div class="p-6 text-left">
+                        <h3 class="font-playfair-display-sc text-2xl text-azul-noche mb-2">Noche de Cuentos bajo la Luna Llena</h3>
+                        <p class="text-tierra-arcilla font-bold mb-2">Fecha: 25 de Julio, 2025</p>
+                        <p class="text-gray-700 mb-2">Tema: Mitos y leyendas lunares</p>
+                        <p class="text-gray-700 mb-4">Lugar: Parque Central, Ciudad de la Eterna Primavera</p>
+                        <a href="#" class="inline-block bg-verde-musgo hover:bg-azul-noche text-marfil-calido font-bold py-2 px-6 rounded-full text-sm">Ver Detalles</a>
+                    </div>
+                </div>
+                <!-- Tarjeta de Evento 2 -->
+                <div class="bg-white rounded-xl shadow-lg overflow-hidden transform hover:scale-105 transition duration-300 ease-in-out border border-tierra-arcilla">
+                    <img src="https://placehold.co/400x250/3A5A40/FDF6EC?text=Evento+Bosque+Encantado" alt="Imagen del Evento 2" class="w-full h-48 object-cover">
+                    <div class="p-6 text-left">
+                        <h3 class="font-playfair-display-sc text-2xl text-azul-noche mb-2">Historias del Bosque Encantado (Privado)</h3>
+                        <p class="text-tierra-arcilla font-bold mb-2">Fecha: 10 de Agosto, 2025</p>
+                        <p class="text-gray-700 mb-2">Tema: Cuentos de hadas y criaturas del bosque</p>
+                        <p class="text-gray-700 mb-4">Lugar: Finca La Escondida (Evento privado)</p>
+                        <a href="#" class="inline-block bg-verde-musgo hover:bg-azul-noche text-marfil-calido font-bold py-2 px-6 rounded-full text-sm">Solicitar Contratación</a>
+                    </div>
+                </div>
+                <!-- Tarjeta de Evento 3 -->
+                <div class="bg-white rounded-xl shadow-lg overflow-hidden transform hover:scale-105 transition duration-300 ease-in-out border border-tierra-arcilla">
+                    <img src="https://placehold.co/400x250/1C1C3B/FDF6EC?text=Evento+Cuentos+Viajeros" alt="Imagen del Evento 3" class="w-full h-48 object-cover">
+                    <div class="p-6 text-left">
+                        <h3 class="font-playfair-display-sc text-2xl text-azul-noche mb-2">Festival de Cuentos Viajeros</h3>
+                        <p class="text-tierra-arcilla font-bold mb-2">Fecha: 20-22 de Septiembre, 2025</p>
+                        <p class="text-gray-700 mb-2">Tema: Diversidad cultural y relatos del mundo</p>
+                        <p class="text-gray-700 mb-4">Lugar: Centro Cultural, Pueblo Mágico</p>
+                        <a href="#" class="inline-block bg-verde-musgo hover:bg-azul-noche text-marfil-calido font-bold py-2 px-6 rounded-full text-sm">Más Información</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Sección Galería de Recuerdos -->
+    <section id="galeria" class="py-20 px-6 md:px-12 bg-azul-noche text-marfil-calido section-fade-in">
+        <div class="max-w-6xl mx-auto text-center">
+            <h2 class="font-playfair-display-sc text-4xl md:text-5xl text-marfil-calido mb-10 border-b-2 border-marfil-calido pb-4 inline-block">Galería de Recuerdos</h2>
+            <p class="text-lg mb-12">Un vistazo a los momentos mágicos que hemos compartido, donde las historias cobraron vida.</p>
+            <div class="gallery-grid">
+                <!-- Ítem de Galería 1 (Imagen) -->
+                <div class="gallery-item">
+                    <img src="https://placehold.co/400x200/B36B00/FDF6EC?text=Foto+Evento+1" alt="Foto de un evento de narración">
+                </div>
+                <!-- Ítem de Galería 2 (Video) -->
+                <div class="gallery-item">
+                    <!-- Usar un video de ejemplo, idealmente un placeholder o un video corto sin sonido -->
+                    <video controls muted loop poster="https://placehold.co/400x200/3A5A40/FDF6EC?text=Video+Evento+2">
+                        <source src="https://www.w3schools.com/html/mov_bbb.mp4" type="video/mp4">
+                        Tu navegador no soporta el elemento de video.
+                    </video>
+                </div>
+                <!-- Ítem de Galería 3 (Imagen) -->
+                <div class="gallery-item">
+                    <img src="https://placehold.co/400x200/1C1C3B/FDF6EC?text=Foto+Evento+3" alt="Foto de un narrador en acción">
+                </div>
+                <!-- Ítem de Galería 4 (Imagen) -->
+                <div class="gallery-item">
+                    <img src="https://placehold.co/400x200/D4AF37/1C1C3B?text=Foto+Evento+4" alt="Foto de la audiencia disfrutando">
+                </div>
+                <!-- Ítem de Galería 5 (Imagen) -->
+                <div class="gallery-item">
+                    <img src="https://placehold.co/400x200/B36B00/FDF6EC?text=Foto+Evento+5" alt="Foto de un escenario con luces cálidas">
+                </div>
+                <!-- Ítem de Galería 6 (Video) -->
+                <div class="gallery-item">
+                    <video controls muted loop poster="https://placehold.co/400x200/3A5A40/FDF6EC?text=Video+Evento+6">
+                        <source src="https://www.w3schools.com/html/mov_bbb.mp4" type="video/mp4">
+                        Tu navegador no soporta el elemento de video.
+                    </video>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Sección La magia de contar (extra poética) -->
+    <section id="magia-contar" class="py-20 px-6 md:px-12 bg-marfil-calido section-fade-in">
+        <div class="max-w-6xl mx-auto text-center">
+            <h2 class="font-playfair-display-sc text-4xl md:text-5xl text-tierra-arcilla mb-10 border-b-2 border-tierra-arcilla pb-4 inline-block">La Magia de Contar</h2>
+            <p class="text-lg text-azul-noche mb-12">
+                El arte de narrar oralmente es un puente invisible que conecta almas, un fuego que ilumina la oscuridad y un eco que perdura en el tiempo.
+            </p>
+            <div class="grid md:grid-cols-2 gap-12 items-center">
+                <div class="text-left">
+                    <blockquote class="text-xl md:text-2xl italic text-azul-noche mb-6 border-l-4 border-tierra-arcilla pl-4">
+                        "Un cuento es una semilla que se siembra en el corazón y florece en la imaginación."
+                        <footer class="text-lg mt-2 not-italic">- Proverbio Ancestral</footer>
+                    </blockquote>
+                    <p class="text-lg md:text-xl text-azul-noche leading-relaxed mb-6">
+                        En cada palabra pronunciada, en cada gesto, en cada silencio, reside el poder de transformar la realidad. La narración oral es un acto de amor, un regalo que se ofrece desde el alma para nutrir el espíritu. Es la forma más pura de comunicación, donde la voz se convierte en el pincel que pinta paisajes en la mente del oyente.
+                    </p>
+                    <p class="text-lg md:text-xl text-azul-noche leading-relaxed">
+                        Explora a continuación algunos audios y videos que capturan la esencia de este arte milenario.
+                    </p>
+                </div>
+                <div>
+                    <img src="https://placehold.co/600x400/D4AF37/1C1C3B?text=Ilustracion+Luna+Caminos" alt="Ilustración onírica de luna y caminos" class="rounded-xl shadow-xl mx-auto w-full h-auto object-cover">
+                </div>
+            </div>
+            <div class="mt-16 grid grid-cols-1 md:grid-cols-2 gap-8">
+                <!-- Audio Relato -->
+                <div class="bg-white rounded-xl shadow-lg p-6 border border-verde-musgo">
+                    <h3 class="font-playfair-display-sc text-2xl text-verde-musgo mb-4">Audio Relato: "El Secreto del Río"</h3>
+                    <audio controls class="w-full rounded-lg">
+                        <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg">
+                        Tu navegador no soporta el elemento de audio.
+                    </audio>
+                    <p class="text-sm text-gray-600 mt-4">Una historia mística sobre los orígenes del agua y la vida.</p>
+                </div>
+                <!-- Video Inspirador -->
+                <div class="bg-white rounded-xl shadow-lg p-6 border border-verde-musgo">
+                    <h3 class="font-playfair-display-sc text-2xl text-verde-musgo mb-4">Video: "La Voz del Silencio"</h3>
+                    <div class="relative w-full" style="padding-bottom: 56.25%;">
+                        <!-- 16:9 Aspect Ratio -->
+                        <iframe class="absolute top-0 left-0 w-full h-full rounded-lg" src="https://www.youtube.com/embed/dQw4w9WgXcQ?si=0" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+                    </div>
+                    <p class="text-sm text-gray-600 mt-4">Un cortometraje sobre la importancia de la escucha activa en la narración.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Sección Contacto y Contratación -->
+    <section id="contacto" class="py-20 px-6 md:px-12 bg-tierra-arcilla text-marfil-calido section-fade-in">
+        <div class="max-w-4xl mx-auto text-center">
+            <h2 class="font-playfair-display-sc text-4xl md:text-5xl text-marfil-calido mb-10 border-b-2 border-marfil-calido pb-4 inline-block">Contacto y Contratación</h2>
+            <p class="text-lg mb-12">¿Listo para llenar tu evento de magia y asombro? Contáctanos para programar una función o un taller.</p>
+            <form class="bg-azul-noche p-8 rounded-xl shadow-lg text-left">
+                <div class="mb-6">
+                    <label for="nombre" class="block text-marfil-calido text-lg font-bold mb-2">Nombre Completo</label>
+                    <input type="text" id="nombre" name="nombre" class="shadow appearance-none border rounded-lg w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:shadow-outline focus:border-verde-musgo" placeholder="Tu nombre">
+                </div>
+                <div class="mb-6">
+                    <label for="email" class="block text-marfil-calido text-lg font-bold mb-2">Correo Electrónico</label>
+                    <input type="email" id="email" name="email" class="shadow appearance-none border rounded-lg w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:shadow-outline focus:border-verde-musgo" placeholder="tu.email@ejemplo.com">
+                </div>
+                <div class="mb-6">
+                    <label for="telefono" class="block text-marfil-calido text-lg font-bold mb-2">Teléfono (Opcional)</label>
+                    <input type="tel" id="telefono" name="telefono" class="shadow appearance-none border rounded-lg w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:shadow-outline focus:border-verde-musgo" placeholder="+XX XXX XXX XXXX">
+                </div>
+                <div class="mb-6">
+                    <label for="tipo_evento" class="block text-marfil-calido text-lg font-bold mb-2">Tipo de Evento/Consulta</label>
+                    <select id="tipo_evento" name="tipo_evento" class="shadow appearance-none border rounded-lg w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:shadow-outline focus:border-verde-musgo">
+                        <option value="">Selecciona una opción</option>
+                        <option value="funcion_publica">Función Pública</option>
+                        <option value="funcion_privada">Función Privada</option>
+                        <option value="taller">Taller de Narración</option>
+                        <option value="colaboracion">Colaboración</option>
+                        <option value="otro">Otro</option>
+                    </select>
+                </div>
+                <div class="mb-8">
+                    <label for="mensaje" class="block text-marfil-calido text-lg font-bold mb-2">Tu Mensaje</label>
+                    <textarea id="mensaje" name="mensaje" rows="6" class="shadow appearance-none border rounded-lg w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:shadow-outline focus:border-verde-musgo" placeholder="Cuéntanos sobre tu evento o consulta..."></textarea>
+                </div>
+                <div class="text-center">
+                    <button type="submit" class="bg-verde-musgo hover:bg-toque-dorado text-marfil-calido font-bold py-3 px-8 rounded-full shadow-lg transition duration-300 ease-in-out transform hover:scale-105">
+                        Enviar Mensaje
+                    </button>
+                </div>
+            </form>
+            <div class="mt-12 text-center text-marfil-calido">
+                <p class="text-xl font-bold mb-4">Datos Directos:</p>
+                <p class="text-lg mb-2"><span class="font-semibold">Correo:</span> <a href="mailto:contacto@lavozdelviento.com" class="hover:underline">contacto@lavozdelviento.com</a></p>
+                <p class="text-lg mb-2"><span class="font-semibold">Teléfono:</span> +57 3XX XXX XXXX</p>
+                <p class="text-lg"><span class="font-semibold">Dirección:</span> Calle de los Cuentos, #123, Ciudad Imaginaria</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Pie de Página -->
+    <footer class="bg-azul-noche text-marfil-calido py-12 px-6 md:px-12">
+        <div class="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-8 text-center md:text-left">
+            <!-- Redes Sociales -->
+            <div>
+                <h3 class="font-playfair-display-sc text-2xl text-toque-dorado mb-4">Síguenos</h3>
+                <div class="flex justify-center md:justify-start space-x-6">
+                    <a href="#" class="text-marfil-calido hover:text-toque-dorado transition duration-300 ease-in-out text-3xl">
+                        <!-- Icono de Facebook (placeholder) -->
+                        <svg class="w-8 h-8 inline-block" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2C6.477 2 2 6.477 2 12s4.477 10 10 10 10-4.477 10-10S17.523 2 12 2zm3.204 8.948h-2.14V16h-2.5V10.948h-1.428V8.718h1.428V7.125c0-1.428.87-2.208 2.14-2.208h1.77V7.18h-1.04c-.65 0-.775.308-.775.76V8.718h1.865l-.24 2.23z"/></svg>
+                    </a>
+                    <a href="#" class="text-marfil-calido hover:text-toque-dorado transition duration-300 ease-in-out text-3xl">
+                        <!-- Icono de Instagram (placeholder) -->
+                        <svg class="w-8 h-8 inline-block" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2C6.477 2 2 6.477 2 12s4.477 10 10 10 10-4.477 10-10S17.523 2 12 2zm3.204 8.948h-2.14V16h-2.5V10.948h-1.428V8.718h1.428V7.125c0-1.428.87-2.208 2.14-2.208h1.77V7.18h-1.04c-.65 0-.775.308-.775.76V8.718h1.865l-.24 2.23z"/></svg>
+                    </a>
+                    <a href="#" class="text-marfil-calido hover:text-toque-dorado transition duration-300 ease-in-out text-3xl">
+                        <!-- Icono de YouTube (placeholder) -->
+                        <svg class="w-8 h-8 inline-block" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2C6.477 2 2 6.477 2 12s4.477 10 10 10 10-4.477 10-10S17.523 2 12 2zm3.204 8.948h-2.14V16h-2.5V10.948h-1.428V8.718h1.428V7.125c0-1.428.87-2.208 2.14-2.208h1.77V7.18h-1.04c-.65 0-.775.308-.775.76V8.718h1.865l-.24 2.23z"/></svg>
+                    </a>
+                </div>
+            </div>
+            <!-- Créditos -->
+            <div>
+                <h3 class="font-playfair-display-sc text-2xl text-toque-dorado mb-4">Créditos</h3>
+                <p class="text-sm">&copy; 2025 La Voz del Viento. Todos los derechos reservados.</p>
+                <p class="text-sm">Diseño y desarrollo por [Tu Nombre/Empresa]</p>
+            </div>
+            <!-- Newsletter y Recursos -->
+            <div>
+                <h3 class="font-playfair-display-sc text-2xl text-toque-dorado mb-4">Mantente Conectado</h3>
+                <p class="text-sm mb-4">Suscríbete a nuestro newsletter para recibir las últimas historias y noticias de eventos.</p>
+                <form class="flex flex-col sm:flex-row gap-2 justify-center md:justify-start">
+                    <input type="email" placeholder="Tu correo electrónico" class="p-2 rounded-lg text-gray-800 w-full sm:w-auto flex-grow">
+                    <button type="submit" class="bg-verde-musgo hover:bg-tierra-arcilla text-marfil-calido py-2 px-4 rounded-lg transition duration-300 ease-in-out">Suscribir</button>
+                </form>
+                <p class="text-sm mt-4"><a href="#" class="hover:underline">Recursos para Narradores</a></p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // JavaScript para el efecto de scroll animado (fade-in)
+        document.addEventListener('DOMContentLoaded', function() {
+            const sections = document.querySelectorAll('.section-fade-in');
+
+            const observerOptions = {
+                root: null,
+                rootMargin: '0px',
+                threshold: 0.1
+            };
+
+            const observer = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('is-visible');
+                        observer.unobserve(entry.target); // Dejar de observar una vez visible
+                    }
+                });
+            }, observerOptions);
+
+            sections.forEach(section => {
+                observer.observe(section);
+            });
+        });
+    </script>
 </body>
 </html>
+
