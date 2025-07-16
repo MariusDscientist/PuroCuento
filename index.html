@@ -4,438 +4,520 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Puro Cuento - Colectivo de Narradores Orales</title>
-    <!-- Enlace a Tailwind CSS CDN -->
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=IM+Fell+DW+Pica&family=Playfair+Display+SC:wght@400;700&family=Lora:ital,wght@0,400;0,700;1,400&family=Merriweather:wght@400;700&family=Inter:wght@400;700&display=swap" rel="stylesheet">
+    <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Configuración de Tailwind para colores personalizados y fuentes -->
+    <style>
+        /* Custom Tailwind CSS Configuration */
+        @tailwind base;
+        @tailwind components;
+        @tailwind utilities;
+
+        :root {
+            scroll-behavior: smooth;
+        }
+
+        /* Custom Colors and Fonts */
+        :root {
+            --color-vibrant-red: #F23D3D;
+            --color-brown: #3D1D05;
+            --color-ocean-blue: #5C849D;
+            --color-forest-green: #737256;
+            --color-soft-rose: #F2AEAE;
+            --color-base-white: #FFFFFF;
+            --color-text-dark: #2D2D2D;
+            --color-sky-blue: #87CEEB;
+        }
+
+        .font-im-fell { font-family: 'IM Fell DW Pica', serif; }
+        .font-playfair-sc { font-family: 'Playfair Display SC', serif; }
+        .font-lora { font-family: 'Lora', serif; }
+        .font-merriweather { font-family: 'Merriweather', serif; }
+        .font-inter { font-family: 'Inter', sans-serif; }
+
+        /* Custom Tailwind Configuration */
+        html {
+            scroll-behavior: smooth;
+        }
+
+        .carousel-snap {
+            scroll-snap-type: x mandatory;
+            -webkit-overflow-scrolling: touch; /* For smoother scrolling on iOS */
+            /* Hide scrollbar */
+            -ms-overflow-style: none;  /* IE and Edge */
+            scrollbar-width: none;  /* Firefox */
+        }
+
+        .carousel-snap::-webkit-scrollbar {
+            display: none; /* Chrome, Safari, Opera */
+        }
+
+        .carousel-item {
+            scroll-snap-align: center;
+            flex-shrink: 0; /* Prevent items from shrinking */
+        }
+
+        /* Fade-in Animation */
+        @keyframes fade-in {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .animate-fade-in {
+            animation: fade-in 1s ease-out forwards;
+        }
+
+        .hidden-on-load {
+            opacity: 0;
+            transform: translateY(20px);
+        }
+
+        /* SVG Icon Styling */
+        .icon-btn {
+            @apply p-2 rounded-full bg-brown text-base-white hover:bg-vibrant-red transition-colors duration-300;
+        }
+    </style>
     <script>
         tailwind.config = {
             theme: {
                 extend: {
                     colors: {
-                        // Nueva paleta de colores del usuario
-                        'vibrant-red': '#F23D3D',     // Rojo vibrante
-                        'brown': '#3D1D05',        // Azul cielo
-                        'ocean-blue': '#5C849D',      // Azul océano (gris-azulado)
-                        'forest-green': '#737256',    // Verde bosque (oliva)
-                        'soft-rose': '#F2AEAE',       // Rosa suave
-
-                        // Colores base para elementos específicos si se necesitan matices
-                        'base-white': '#FFFFFF',      // Blanco puro para fondos de tarjetas
-                        'text-dark': '#2D2D2D',       // Un gris muy oscuro para texto general
+                        'vibrant-red': '#F23D3D',
+                        'brown': '#3D1D05',
+                        'ocean-blue': '#5C849D',
+                        'forest-green': '#737256',
+                        'soft-rose': '#F2AEAE',
+                        'base-white': '#FFFFFF',
+                        'text-dark': '#2D2D2D',
+                        'sky-blue': '#87CEEB',
                     },
                     fontFamily: {
-                        // IM Fell DW Pica para títulos grandes, con un toque rústico y antiguo
-                        'im-fell-dw-pica': ['"IM Fell DW Pica"', 'serif'],
-                        // Playfair Display SC para subtítulos o énfasis, elegante y legible
-                        'playfair-display-sc': ['"Playfair Display SC"', 'serif'],
-                        // Lora para texto de cuerpo, legible y con carácter literario
+                        'im-fell': ['IM Fell DW Pica', 'serif'],
+                        'playfair-sc': ['Playfair Display SC', 'serif'],
                         'lora': ['Lora', 'serif'],
-                        // Merriweather como alternativa de cuerpo si Lora no se ajusta
                         'merriweather': ['Merriweather', 'serif'],
+                        'inter': ['Inter', 'sans-serif'],
+                    },
+                    keyframes: {
+                        fadeIn: {
+                            'from': { opacity: '0', transform: 'translateY(20px)' },
+                            'to': { opacity: '1', transform: 'translateY(0)' },
+                        }
+                    },
+                    animation: {
+                        'fade-in': 'fadeIn 1s ease-out forwards',
                     }
                 }
             }
         }
     </script>
-    <!-- Enlace a Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=IM+Fell+DW+Pica:ital@0;1&family=Playfair+Display+SC:wght@400;700&family=Lora:ital,wght@0,400;0,700;1,400&family=Merriweather:wght@400;700&display=swap" rel="stylesheet">
-    <style>
-        /* Estilos personalizados para el scroll animado y microinteracciones */
-        html {
-            scroll-behavior: smooth;
-        }
-        .section-fade-in {
-            opacity: 0;
-            transform: translateY(20px);
-            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
-        }
-        .section-fade-in.is-visible {
-            opacity: 1;
-            transform: translateY(0);
-        }
-        /* Estilo para el fondo con textura de papel antiguo (ejemplo simple) */
-        .bg-paper-texture {
-            /* Puedes reemplazar esta URL con una imagen de textura de papel antiguo si tienes una */
-            background-image: url('https://placehold.co/1920x1080/FDF6EC/B36B00?text=Textura+de+Papel+Antiguo');
-            background-size: cover;
-            background-repeat: no-repeat;
-            background-attachment: fixed; /* Para un efecto de paralaje suave */
-        }
-        /* Estilo para el mosaico de galería */
-        .gallery-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 1.5rem; /* Aumento del espacio para un look más "artístico" */
-        }
-        .gallery-item {
-            position: relative;
-            overflow: hidden;
-            border-radius: 0.75rem; /* rounded-xl */
-            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2); /* Sombra más pronunciada */
-            transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
-            border: 2px solid var(--tw-colors-ocean-blue); /* Borde sutil */
-        }
-        .gallery-item:hover {
-            transform: scale(1.03); /* Menos zoom para evitar desbordes */
-            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
-        }
-        .gallery-item img,
-        .gallery-item video {
-            width: 100%;
-            height: 220px; /* Altura ligeramente aumentada para más impacto visual */
-            object-fit: cover;
-            border-radius: 0.5rem; /* Ligeramente menos redondeado para el contenido interno */
-        }
-        /* Estilos para los iconos de redes sociales (SVG) */
-        .social-icon {
-            transition: transform 0.2s ease-in-out, fill 0.2s ease-in-out;
-        }
-        .social-icon:hover {
-            transform: translateY(-3px);
-            fill: var(--tw-colors-sky-blue); /* Cambia de color al pasar el ratón */
-        }
-    </style>
 </head>
-<body class="font-lora text-text-dark bg-soft-rose">
+<body class="font-lora text-text-dark bg-base-white">
 
-    <!-- Navegación lateral flotante opcional (para desktop) -->
-    <nav class="hidden lg:block fixed left-4 top-1/2 -translate-y-1/2 z-50 p-4 bg-ocean-blue bg-opacity-90 rounded-xl shadow-lg border border-forest-green">
-        <ul class="space-y-4">
-            <li><a href="#inicio" class="text-soft-rose hover:text-sky-blue font-playfair-display-sc text-lg transition duration-300 ease-in-out">Inicio</a></li>
-            <li><a href="#quienes-somos" class="text-soft-rose hover:text-sky-blue font-playfair-display-sc text-lg transition duration-300 ease-in-out">Quiénes Somos</a></li>
-            <li><a href="#narradores" class="text-soft-rose hover:text-sky-blue font-playfair-display-sc text-lg transition duration-300 ease-in-out">Narradores</a></li>
-            <li><a href="#eventos" class="text-soft-rose hover:text-sky-blue font-playfair-display-sc text-lg transition duration-300 ease-in-out">Eventos</a></li>
-            <li><a href="#galeria" class="text-soft-rose hover:text-sky-blue font-playfair-display-sc text-lg transition duration-300 ease-in-out">Galería</a></li>
-            <li><a href="#magia-contar" class="text-soft-rose hover:text-sky-blue font-playfair-display-sc text-lg transition duration-300 ease-in-out">La Magia</a></li>
-            <li><a href="#contacto" class="text-soft-rose hover:text-sky-blue font-playfair-display-sc text-lg transition duration-300 ease-in-out">Contacto</a></li>
-        </ul>
-    </nav>
-
-    <!-- Sección de Inicio (Hero) -->
-    <section id="inicio" class="relative h-screen flex items-center justify-center text-center overflow-hidden bg-cover bg-center bg-paper-texture" style="background-image: url('static/img/parque_lajulia.jpg');">
-        <!-- Capa de superposición para un efecto onírico y de contraste -->
-        <div class="absolute inset-0 bg-ocean-blue opacity-50"></div>
-        <div class="relative z-10 p-8 max-w-4xl mx-auto rounded-xl bg-soft-rose bg-opacity-90 shadow-2xl border-4 border-brown animate-fade-in">
-            <!-- Logo "Puro Cuento" -->
-            <img src="static/img/logoletra1.png" alt="Logo Puro Cuento" class="w-48 md:w-64 mx-auto mb-6 drop-shadow-lg">
-            <h1 class="font-im-fell-dw-pica text-5xl md:text-7xl text-vibrant-red mb-6 leading-tight animate-pulse">
-                Puro Cuento.
-            </h1>
-            <p class="text-xl md:text-2xl text-text-dark mb-10 font-lora italic">
-                "Al calor de la palabra viva"
-            </p>
-            <div class="flex flex-col sm:flex-row justify-center gap-4">
-                <a href="#eventos" class="bg-vibrant-red hover:bg-forest-green text-base-white font-bold py-3 px-8 rounded-full shadow-lg transition duration-300 ease-in-out transform hover:scale-105 border-2 border-sky-blue">
-                    Descubre Nuestro Próximo Evento
-                </a>
-                <a href="#quienes-somos" class="bg-forest-green hover:bg-ocean-blue text-base-white font-bold py-3 px-8 rounded-full shadow-lg transition duration-300 ease-in-out transform hover:scale-105 border-2 border-sky-blue">
-                    Conoce Nuestra Magia
-                </a>
+    <!-- Hero Section -->
+    <section id="inicio" class="relative h-screen flex items-center justify-center text-center overflow-hidden">
+        <div class="absolute inset-0 bg-cover bg-center" style="background-image: url('static/img/parque_lajulia.jpg');">
+            <div class="absolute inset-0 bg-ocean-blue opacity-50"></div>
+        </div>
+        <div class="relative z-10 p-8 md:p-12 lg:p-16 bg-soft-rose bg-opacity-90 rounded-3xl border-4 border-brown shadow-2xl max-w-4xl w-11/12 mx-auto animate-fade-in hidden-on-load">
+            <img src="static/img/logoletra1.png" alt="Logo Puro Cuento" class="mx-auto mb-6 w-96 md:w-[32rem] lg:w-[40rem] xl:w-[48rem] h-auto">
+            <h1 class="text-5xl md:text-7xl lg:text-8xl font-im-fell text-vibrant-red mb-4 leading-tight"></h1>
+            <p class="text-xl md:text-2xl lg:text-3xl font-lora italic text-brown mb-8">"Al calor de la palabra viva"</p>
+            <div class="flex flex-col md:flex-row justify-center gap-4">
+                <a href="#eventos" class="bg-vibrant-red text-base-white font-playfair-sc text-lg md:text-xl py-3 px-6 rounded-full shadow-lg hover:bg-brown transition-all duration-300 hover:scale-105">Descubre Nuestro Próximo Evento</a>
+                <a href="#quienes-somos" class="bg-brown text-base-white font-playfair-sc text-lg md:text-xl py-3 px-6 rounded-full shadow-lg hover:bg-vibrant-red transition-all duration-300 hover:scale-105">Conoce Nuestra Magia</a>
             </div>
         </div>
     </section>
 
-    <!-- Sección ¿Quiénes somos? -->
-    <section id="quienes-somos" class="py-20 px-6 md:px-12 bg-soft-rose section-fade-in">
-        <div class="max-w-6xl mx-auto text-center">
-            <h2 class="font-im-fell-dw-pica text-4xl md:text-5xl text-vibrant-red mb-10 border-b-2 border-vibrant-red pb-4 inline-block">¿Quiénes Somos?</h2>
-            <div class="grid md:grid-cols-2 gap-12 items-center">
-                <div class="text-left">
-                    <p class="text-lg md:text-xl text-text-dark mb-6 leading-relaxed">
-                        Somos "Puro Cuento", un colectivo de narradores orales nacidos de la ancestral tradición de 
-                        contar historias bajo el manto estrellado. Nuestro propósito es tejer puentes entre el pasado 
-                        y el presente, entre el imaginario colectivo y la realidad palpable, a través del poder 
-                        transformador de la palabra hablada.
+    <!-- Quiénes Somos Section -->
+    <section id="quienes-somos" class="py-16 md:py-24 bg-base-white hidden-on-load">
+        <div class="container mx-auto px-6 lg:px-8">
+            <h2 class="text-4xl md:text-5xl font-im-fell text-vibrant-red text-center mb-12">Quiénes Somos</h2>
+            <div class="flex flex-col md:flex-row items-center gap-8 md:gap-12">
+                <div class="md:w-1/2">
+                    <p class="text-lg md:text-xl font-lora leading-relaxed mb-6">
+                        Puro Cuento es un colectivo de narradores orales que convierte las palabras en puentes entre generaciones, emociones y culturas.
                     </p>
-                    <p class="text-lg md:text-xl text-text-dark leading-relaxed">
-                        Nacimos de la necesidad de mantener viva la llama de la oralidad en un mundo que a menudo olvida 
-                        el valor de la escucha. Nuestros valores se cimentan en el respeto por la tradición, la creatividad 
-                        sin límites, la conexión humana y la pasión por compartir la magia que reside en cada relato. Cada 
-                        narrador es un guardián de voces, un tejedor de sueños y un soplador de vientos que llevan las 
-                        historias a cada rincón.
+                    <p class="text-lg md:text-xl font-lora leading-relaxed mb-6">    
+                        Nacimos en Pereira, donde la tradición oral aún respira en los parques y los cafés. Llevamos cuentos vivos a colegios, festivales, ferias y escenarios culturales, convencidos de que una buena historia puede transformar una tarde… o una vida.
+                    </p>
+                    <p class="text-lg md:text-xl font-lora leading-relaxed mb-6">
+                        Nuestro repertorio es diverso: humor costumbrista, poesía íntima, leyendas y relatos inventados al calor del público. Contamos con voces de distintas edades y estilos, y nos adaptamos a públicos infantiles, juveniles o adultos.
+                    </p>
+                    <p class="text-lg md:text-xl font-lora leading-relaxed mb-6">            
+                        Más que funciones, creamos experiencias contadas con cuidado, creatividad y corazón.
+                    </p>
+                    <p class="text-lg md:text-xl font-lora leading-relaxed mb-6">
+                        ¿Buscas una presentación que conecte, emocione y deje huella?
+                    </p>
+                    <p class="text-lg md:text-xl font-lora leading-relaxed mb-6">
+                        Entonces no es solo un cuento. Es <strong>Puro Cuento</strong>.
                     </p>
                 </div>
-                <div>
-                    <!-- Imagen de ejemplo para esta sección, puedes reemplazarla con una ilustración -->
-                    <img src="static/img/purocuento.jpg" alt="Ilustración de personas contando historias" class="rounded-xl shadow-xl mx-auto w-full h-auto object-cover border-2 border-forest-green">
+
+
+                <div class="md:w-1/2 flex justify-center">
+                    <img src="static/img/purocuento.jpg" alt="" class="rounded-3xl shadow-xl border-4 border-forest-green w-full max-w-md md:max-w-none h-auto object-cover">
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Sección Narradores -->
-    <section id="narradores" class="py-20 px-6 md:px-12 bg-forest-green text-soft-rose section-fade-in">
-        <div class="max-w-6xl mx-auto text-center">
-            <h2 class="font-im-fell-dw-pica text-4xl md:text-5xl text-soft-rose mb-10 border-b-2 border-soft-rose pb-4 inline-block">Nuestros Narradores</h2>
-            <p class="text-lg mb-12">Conoce a los guardianes de las historias, cada uno con su voz única y su magia particular.</p>
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8"> <!-- Cambiado a 4 columnas en pantallas grandes -->
-                <!-- Ficha de Cuentero 1 -->
-                <div class="bg-ocean-blue rounded-xl shadow-lg p-6 transform hover:scale-105 transition duration-300 ease-in-out border-2 border-brown">
-                    <img src="static/img/yo.jpg" alt="Foto de Narrador 1" class="w-32 h-32 rounded-full mx-auto mb-4 object-cover border-4 border-sky-blue">
-                    <h3 class="font-playfair-display-sc text-3xl text-sky-blue mb-2">El Caminante de Cuentos</h3>
-                    <p class="font-lora italic text-soft-rose mb-4">Estilo: Narración épica y mitológica</p>
-                    <p class="text-sm text-soft-rose mb-4">
-                        Bio poética: Sus palabras son ríos que fluyen desde tiempos inmemoriales, trayendo consigo la sabiduría de los ancestros y el eco de leyendas olvidadas. Especialista en mitos y epopeyas que transportan al oyente a mundos lejanos.
-                    </p>
-                    <p class="text-sm text-soft-rose">Disponibilidad: Eventos públicos y privados, talleres de creación.</p>
+    <!-- Nuestros Narradores Section -->
+    <section id="narradores" class="py-16 md:py-24 bg-soft-rose hidden-on-load">
+        <div class="container mx-auto px-6 lg:px-8">
+            <h2 class="text-4xl md:text-5xl font-im-fell text-soft-rose text-center mb-12">Nuestros Narradores</h2>
+            <div class="relative flex items-center justify-center">
+                <button id="prevBtn" class="icon-btn absolute left-0 z-20 -ml-4 md:-ml-8 lg:-ml-12">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg>
+                </button>
+                <div id="narratorCarousel" class="carousel-snap flex overflow-x-scroll w-full lg:w-11/12 xl:w-10/12 mx-auto">
+                    <!-- Narrator Card 1 -->
+                    <div class="carousel-item p-6 md:p-8 bg-ocean-blue rounded-3xl shadow-xl border-4 border-brown flex flex-col md:flex-row items-center gap-6 md:gap-8 w-full flex-shrink-0">
+                        <div class="md:w-1/2 text-base-white text-center md:text-left">
+                            <h3 class="text-3xl font-playfair-sc text-vibrant-red mb-2">Marius - Narrador Oral</h3>
+                            <p class="text-lg font-lora italic mb-4">Jhon Mario Cano Torres</p>
+                            <p class="font-merriweather mb-4">
+                                Narrador de raíces profundas y carcajadas sinceras. Marius bebe de la sabiduría indígena y del humor cotidiano, contando historias que abrazan el alma y alivian el corazón. Su presencia es cálida, su voz cercana, y su relato siempre deja un eco de alegría y reflexión.
+                            </p>
+                            <p class="font-lora text-sm italic mb-4">"Él tomó el camino hacia la casa de Mariana. Unas cuadras antes, se encontró con algunas lámparas dañadas, lo que lo asustó mucho. En las noches sin luna, es la mañana la que se entera de lo que sucede en la noche. A pesar del miedo, continuó caminando."</p>
+                            <p class="font-inter text-sm"></p>
+                        </div>
+                        <div class="md:w-1/2 flex justify-center">
+                            <img src="static/img/yo.jpg" alt="" class="rounded-xl w-48 h-60 md:w-64 md:h-80 object-cover border-4 border-soft-rose shadow-lg">
+                        </div>
+                    </div>
+                    <!-- Narrator Card 2 -->
+                    <div class="carousel-item p-6 md:p-8 bg-ocean-blue rounded-3xl shadow-xl border-4 border-brown flex flex-col md:flex-row items-center gap-6 md:gap-8 w-full flex-shrink-0">
+                        <div class="md:w-1/2 text-base-white text-center md:text-left">
+                            <h3 class="text-3xl font-playfair-sc text-vibrant-red mb-2">La Tejedora de Sueños</h3>
+                            <p class="text-lg font-lora italic mb-4">Estilo: Fantástico y Onírico</p>
+                            <p class="font-merriweather mb-4">
+                                Con hilos de luna y polvo de estrellas, esta narradora crea mundos donde la fantasía es la única realidad. Sus cuentos son portales a dimensiones mágicas, llenas de criaturas asombrosas y aventuras inolvidables.
+                            </p>
+                            <p class="font-lora text-sm italic mb-4">"Donde la imaginación vuela, allí habita la verdad."</p>
+                            <p class="font-inter text-sm">Ideal para público infantil, eventos de fantasía y noches de cuentos bajo las estrellas.</p>
+                        </div>
+                        <div class="md:w-1/2 flex justify-center">
+                            <img src="static/img/filosofo.jpg" alt="" class="rounded-xl w-48 h-60 md:w-64 md:h-80 object-cover border-4 border-soft-rose shadow-lg">
+                        </div>
+                    </div>
+                    <!-- Narrator Card 3 -->
+                    <div class="carousel-item p-6 md:p-8 bg-ocean-blue rounded-3xl shadow-xl border-4 border-brown flex flex-col md:flex-row items-center gap-6 md:gap-8 w-full flex-shrink-0">
+                        <div class="md:w-1/2 text-base-white text-center md:text-left">
+                            <h3 class="text-3xl font-playfair-sc text-vibrant-red mb-2">El Juglar Moderno</h3>
+                            <p class="text-lg font-lora italic mb-4">Estilo: Humorístico y Cotidiano</p>
+                            <p class="font-merriweather mb-4">
+                                Con una chispa en los ojos y una sonrisa contagiosa, este narrador transforma lo ordinario en extraordinario. Sus relatos están llenos de ingenio y situaciones hilarantes que arrancan carcajadas y reflexiones sobre la vida diaria.
+                            </p>
+                            <p class="font-lora text-sm italic mb-4">"La risa es el mejor prólogo de cualquier historia."</p>
+                            <p class="font-inter text-sm">Perfecto para eventos corporativos, reuniones familiares y espectáculos de comedia.</p>
+                        </div>
+                        <div class="md:w-1/2 flex justify-center">
+                            <img src="static/img/humorista.jpg" alt="" class="rounded-xl w-48 h-60 md:w-64 md:h-80 object-cover border-4 border-soft-rose shadow-lg">
+                        </div>
+                    </div>
+                    <!-- Narrator Card 4 -->
+                    <div class="carousel-item p-6 md:p-8 bg-ocean-blue rounded-3xl shadow-xl border-4 border-brown flex flex-col md:flex-row items-center gap-6 md:gap-8 w-full flex-shrink-0">
+                        <div class="md:w-1/2 text-base-white text-center md:text-left">
+                            <h3 class="text-3xl font-playfair-sc text-vibrant-red mb-2">La Voz del Campo</h3>
+                            <p class="text-lg font-lora italic mb-4">Estilo: Costumbrista y Folclórico</p>
+                            <p class="font-merriweather mb-4">
+                                Sus cuentos huelen a tierra mojada y a café recién colado. Esta narradora trae consigo la sabiduría del campo, las tradiciones de los pueblos y las historias de la gente sencilla, contadas con la calidez de un hogar.
+                            </p>
+                            <p class="font-lora text-sm italic mb-4">"Las raíces de un árbol son las historias que lo sostienen."</p>
+                            <p class="font-inter text-sm">Ideal para eventos rurales, ferias artesanales y proyectos de rescate cultural.</p>
+                        </div>
+                        <div class="md:w-1/2 flex justify-center">
+                            <img src="static/img/campesino.jpg" alt="" class="rounded-xl w-48 h-60 md:w-64 md:h-80 object-cover border-4 border-soft-rose shadow-lg">
+                        </div>
+                    </div>
                 </div>
-                <!-- Ficha de Cuentero 2 -->
-                <div class="bg-ocean-blue rounded-xl shadow-lg p-6 transform hover:scale-105 transition duration-300 ease-in-out border-2 border-brown">
-                    <img src="static/img/filosofo.jpg" alt="Foto de Narrador 2" class="w-32 h-32 rounded-full mx-auto mb-4 object-cover border-4 border-sky-blue">
-                    <h3 class="font-playfair-display-sc text-3xl text-sky-blue mb-2">La Tejedora de Risas</h3>
-                    <p class="font-lora italic text-soft-rose mb-4">Estilo: Cuentos humorísticos y cotidianos</p>
-                    <p class="text-sm text-soft-rose mb-4">
-                        Bio poética: Con una sonrisa en la voz y un brillo en la mirada, transforma lo ordinario en extraordinario. Sus relatos están llenos de ingenio y situaciones disparatadas que arrancan carcajadas y reflexiones.
-                    </p>
-                    <p class="text-sm text-soft-rose">Disponibilidad: Fiestas infantiles, eventos familiares, cafés literarios.</p>
-                </div>
-                <!-- Ficha de Cuentero 3 -->
-                <div class="bg-ocean-blue rounded-xl shadow-lg p-6 transform hover:scale-105 transition duration-300 ease-in-out border-2 border-brown">
-                    <img src="static/img/humorista.jpg" alt="Foto de Narrador 3" class="w-32 h-32 rounded-full mx-auto mb-4 object-cover border-4 border-sky-blue">
-                    <h3 class="font-playfair-display-sc text-3xl text-sky-blue mb-2">El Susurrante de Sueños</h3>
-                    <p class="font-lora italic text-soft-rose mb-4">Estilo: Relatos de misterio y fantasía</p>
-                    <p class="text-sm text-soft-rose mb-4">
-                        Bio poética: Susurra al oído del alma, desvelando mundos ocultos y criaturas fantásticas. Sus historias son un viaje a lo desconocido, donde la imaginación no tiene límites y cada sombra esconde un secreto.
-                    </p>
-                    <p class="text-sm text-soft-rose">Disponibilidad: Noches de cuentos, eventos temáticos, festivales de fantasía.</p>
-                </div>
-                <!-- Ficha de Cuentero 4 -->
-                <div class="bg-ocean-blue rounded-xl shadow-lg p-6 transform hover:scale-105 transition duration-300 ease-in-out border-2 border-brown">
-                    <img src="static/img/campesino.jpg" alt="Foto de Narrador 4" class="w-32 h-32 rounded-full mx-auto mb-4 object-cover border-4 border-brown">
-                    <h3 class="font-playfair-display-sc text-3xl text-brown mb-2">La Voz del Viento</h3>
-                    <p class="font-lora italic text-brown mb-4">Estilo: Cuentos de tradición oral y naturaleza</p>
-                    <p class="text-sm text-brown mb-4">
-                        Bio poética: Sus relatos son como el viento que acaricia los árboles, trayendo ecos de la tierra y susurros de los ríos. Conecta al público con la sabiduría de la naturaleza y las raíces de la tradición oral.
-                    </p>
-                    <p class="text-sm text-brown">Disponibilidad: Eventos al aire libre, festivales culturales, escuelas.</p>
-                </div>
+                <button id="nextBtn" class="icon-btn absolute right-0 z-20 -mr-4 md:-mr-8 lg:-mr-12">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+                </button>
+            </div>
+            <div id="paginationDots" class="flex justify-center mt-8 gap-2">
+                <!-- Dots will be generated by JavaScript -->
             </div>
         </div>
     </section>
 
-    <!-- Sección Eventos Próximos -->
-    <section id="eventos" class="py-20 px-6 md:px-12 bg-soft-rose section-fade-in">
-        <div class="max-w-6xl mx-auto text-center">
-            <h2 class="font-im-fell-dw-pica text-4xl md:text-5xl text-vibrant-red mb-10 border-b-2 border-vibrant-red pb-4 inline-block">Eventos Próximos</h2>
-            <p class="text-lg text-text-dark mb-12">No te pierdas la oportunidad de sumergirte en nuevas historias. ¡Te esperamos!</p>
+    <!-- Eventos Próximos Section -->
+    <section id="eventos" class="py-16 md:py-24 bg-base-white hidden-on-load">
+        <div class="container mx-auto px-6 lg:px-8">
+            <h2 class="text-4xl md:text-5xl font-im-fell text-vibrant-red text-center mb-12">Eventos Próximos</h2>
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                <!-- Tarjeta de Evento 1: Dicho y Hecho (usando tu póster) -->
-                <div class="bg-base-white rounded-xl shadow-lg overflow-hidden transform hover:scale-105 transition duration-300 ease-in-out border-2 border-vibrant-red">
-                    <img src="static/img/torneo.jpg" alt="Póster del evento Dicho y Hecho" class="w-full h-48 object-cover">
-                    <div class="p-6 text-left">
-                        <h3 class="font-playfair-display-sc text-2xl text-text-dark mb-2">Clasificatoria Abierta: Dicho y Hecho</h3>
-                        <p class="text-vibrant-red font-bold mb-2">Fecha: Sábado 12 de Julio, 5:00 P.M.</p>
-                        <p class="text-gray-700 mb-2">Tema: Torneo de la Palabra Viva</p>
-                        <p class="text-gray-700 mb-4">Lugar: Parque La Julia - Pereira</p>
-                        <a href="https://www.instagram.com/purocuento_pereira" target="_blank" class="inline-block bg-vibrant-red hover:bg-forest-green text-base-white font-bold py-2 px-6 rounded-full text-sm">Ver Detalles en Instagram</a>
+                <!-- Event Card: Clasificatoria 1 -->
+                <div class="bg-base-white rounded-3xl shadow-xl border-4 border-forest-green overflow-hidden transition-all duration-300 hover:scale-[1.02]">
+                    <img src="static\img\torneo.jpg" alt="Flyer clasificatoria narración oral" class="w-full h-48 object-cover">
+                    <div class="p-6">
+                        <h3 class="text-2xl font-playfair-sc text-brown mb-2">Clasificatoria Abierta – “Dicho y Hecho”</h3>
+                        <p class="text-lg font-lora text-forest-green mb-2">Fecha: Sábado 12 de julio, 2025</p>
+                        <p class="text-md font-merriweather text-text-dark mb-4">Formato competitivo de narración oral</p>
+                        <p class="text-md font-inter text-gray-600 mb-4">Lugar: Parque La Julia, Pereira</p>
+                        <a href="https://www.instagram.com/p/DL5rP87PVTm/?igsh=YmVkemZ3bGtjd2Nh" 
+                        target="_blank"
+                        class="inline-block bg-vibrant-red text-base-white font-inter py-2 px-4 rounded-full hover:bg-brown transition-colors duration-300">
+                            Ver en Instagram
+                        </a>
                     </div>
                 </div>
-                <!-- Tarjeta de Evento 2 -->
-                <div class="bg-base-white rounded-xl shadow-lg overflow-hidden transform hover:scale-105 transition duration-300 ease-in-out border-2 border-ocean-blue">
-                    <img src="static/img/evento2.jpg" alt="Imagen del Evento 2" class="w-full h-48 object-cover">
-                    <div class="p-6 text-left">
-                        <h3 class="font-playfair-display-sc text-2xl text-text-dark mb-2">Historias del Bosque Encantado (Privado)</h3>
-                        <p class="text-ocean-blue font-bold mb-2">Fecha: 10 de Agosto, 2025</p>
-                        <p class="text-gray-700 mb-2">Tema: Cuentos de hadas y criaturas del bosque</p>
-                        <p class="text-gray-700 mb-4">Lugar: Finca La Escondida (Evento privado)</p>
-                        <a href="#contacto" class="inline-block bg-forest-green hover:bg-ocean-blue text-base-white font-bold py-2 px-6 rounded-full text-sm">Solicitar Contratación</a>
+
+                <!-- Event Card 2 -->
+                <!-- Event Card: Lo que el café nos contó -->
+                <div class="bg-base-white rounded-3xl shadow-xl border-4 border-coffee-brown overflow-hidden transition-all duration-300 hover:scale-[1.02]">
+                    <img src="static\img\flyer2.png" alt="Flyer Lo que el café nos contó" class="w-full h-48 object-cover">
+                    <div class="p-6">
+                        <h3 class="text-2xl font-playfair-sc text-brown mb-2">Lo que el café nos contó</h3>
+                        <p class="text-lg font-lora text-forest-green mb-2">Fecha: Miércoles 16 de julio, 2025</p>
+                        <p class="text-md font-merriweather text-text-dark mb-4">Un encuentro de narración oral con aroma a café</p>
+                        <p class="text-md font-inter text-gray-600 mb-4">Lugar: Café Torres – Cra 10 #19-60, Pereira</p>
+                        <a href="https://www.instagram.com/p/DL5rP87PVTm/?igsh=YmVkemZ3bGtjd2Nh" 
+                        target="_blank"
+                        class="inline-block bg-vibrant-red text-base-white font-inter py-2 px-4 rounded-full hover:bg-brown transition-colors duration-300">
+                            Ver en Instagram
+                        </a>
                     </div>
                 </div>
-                <!-- Tarjeta de Evento 3 -->
-                <div class="bg-base-white rounded-xl shadow-lg overflow-hidden transform hover:scale-105 transition duration-300 ease-in-out border-2 border-ocean-blue">
-                    <img src="static/img/evento3.jpg" alt="Imagen del Evento 3" class="w-full h-48 object-cover">
-                    <div class="p-6 text-left">
-                        <h3 class="font-playfair-display-sc text-2xl text-text-dark mb-2">Festival de Cuentos Viajeros</h3>
-                        <p class="text-ocean-blue font-bold mb-2">Fecha: 20-22 de Septiembre, 2025</p>
-                        <p class="text-gray-700 mb-2">Tema: Diversidad cultural y relatos del mundo</p>
-                        <p class="text-gray-700 mb-4">Lugar: Centro Cultural, Pueblo Mágico</p>
-                        <a href="#" class="inline-block bg-forest-green hover:bg-ocean-blue text-base-white font-bold py-2 px-6 rounded-full text-sm">Más Información</a>
+
+                <!-- Event Card3: Clasificatoria 2 -->
+                <div class="bg-base-white rounded-3xl shadow-xl border-4 border-ocean-blue overflow-hidden transition-all duration-300 hover:scale-[1.02]">
+                    <img src="static\img\clasificatorioa2.jpg" alt="Flyer segunda clasificatoria narración oral" class="w-full h-48 object-cover">
+                    <div class="p-6">
+                        <h3 class="text-2xl font-playfair-sc text-brown mb-2">Clasificatoria Abierta – “Dicho y Hecho”</h3>
+                        <p class="text-lg font-lora text-forest-green mb-2">Fecha: Sábado 26 de julio, 2025</p>
+                        <p class="text-md font-merriweather text-text-dark mb-4">Torneo de narración oral – Segunda jornada</p>
+                        <p class="text-md font-inter text-gray-600 mb-4">Lugar: Parque La Julia, Pereira</p>
+                        <a href="https://www.instagram.com/p/DL5rP87PVTm/?igsh=YmVkemZ3bGtjd2Nh"
+                        target="_blank"
+                        class="inline-block bg-vibrant-red text-base-white font-inter py-2 px-4 rounded-full hover:bg-brown transition-colors duration-300">
+                            Ver en Instagram
+                        </a>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Galería de Recuerdos Section -->
+    <section id="galeria" class="py-16 md:py-24 bg-soft-rose hidden-on-load">
+        <div class="container mx-auto px-6 lg:px-8">
+            <h2 class="text-4xl md:text-5xl font-im-fell text-soft-rose text-center mb-12">Galería de Recuerdos</h2>
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+                <!-- Image 1 -->
+                <div class="relative group rounded-3xl overflow-hidden shadow-lg border-4 border-ocean-blue hover:scale-[1.03] hover:shadow-2xl transition-all duration-300">
+                    <img src="static/img/galeria1.jpg" alt="" class="w-full h-64 object-cover">
+                    <div class="absolute inset-0 bg-black bg-opacity-40 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                        <p class="text-base-white text-xl font-playfair-sc">Momento Mágico</p>
+                    </div>
+                </div>
+                <!-- Video 1 -->
+                <div class="relative group rounded-3xl overflow-hidden shadow-lg border-4 border-ocean-blue hover:scale-[1.03] hover:shadow-2xl transition-all duration-300">
+                    <video src="static/videos/galeria-video.mp4" controls class="w-full h-64 object-cover"></video>
+                    <div class="absolute inset-0 bg-black bg-opacity-40 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                        <p class="text-base-white text-xl font-playfair-sc">Relato en Vivo</p>
+                    </div>
+                </div>
+                <!-- Image 2 -->
+                <div class="relative group rounded-3xl overflow-hidden shadow-lg border-4 border-ocean-blue hover:scale-[1.03] hover:shadow-2xl transition-all duration-300">
+                    <img src="static/img/galeria2.jpg" alt="" class="w-full h-64 object-cover">
+                    <div class="absolute inset-0 bg-black bg-opacity-40 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                        <p class="text-base-white text-xl font-playfair-sc">Conexión Humana</p>
+                    </div>
+                </div>
+                <div class="relative group rounded-3xl overflow-hidden shadow-lg border-4 border-ocean-blue hover:scale-[1.03] hover:shadow-2xl transition-all duration-300">
+                    <video src="static/videos/galeria-video.mp4" controls class="w-full h-64 object-cover"></video>
+                    <div class="absolute inset-0 bg-black bg-opacity-40 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                        <p class="text-base-white text-xl font-playfair-sc">Relato en Vivo</p>
+                    </div>
+                </div>
+                <!-- Image 3 -->
+                <div class="relative group rounded-3xl overflow-hidden shadow-lg border-4 border-ocean-blue hover:scale-[1.03] hover:shadow-2xl transition-all duration-300">
+                    <img src="static/img/galeria3.jpg" alt="" class="w-full h-64 object-cover">
+                    <div class="absolute inset-0 bg-black bg-opacity-40 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                        <p class="text-base-white text-xl font-playfair-sc">Sembrando Cuentos</p>
+                    </div>
+                </div>
+                <!-- Video 2 -->
+                <div class="relative group rounded-3xl overflow-hidden shadow-lg border-4 border-ocean-blue hover:scale-[1.03] hover:shadow-2xl transition-all duration-300">
+                    <video src="static/videos/galeria-video2.mp4" controls class="w-full h-64 object-cover"></video>
+                    <div class="absolute inset-0 bg-black bg-opacity-40 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                        <p class="text-base-white text-xl font-playfair-sc">La Magia Sucede</p>
+                    </div>
+                </div>
+                <!-- Image 4 -->
+                <div class="relative group rounded-3xl overflow-hidden shadow-lg border-4 border-ocean-blue hover:scale-[1.03] hover:shadow-2xl transition-all duration-300">
+                    <img src="static/img/galeria4.jpg" alt="" class="w-full h-64 object-cover">
+                    <div class="absolute inset-0 bg-black bg-opacity-40 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                        <p class="text-base-white text-xl font-playfair-sc">Colectivo Unido</p>
+                    </div>
+                </div>
+                <div class="relative group rounded-3xl overflow-hidden shadow-lg border-4 border-ocean-blue hover:scale-[1.03] hover:shadow-2xl transition-all duration-300">
+                    <video src="static/videos/galeria-video.mp4" controls class="w-full h-64 object-cover"></video>
+                    <div class="absolute inset-0 bg-black bg-opacity-40 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                        <p class="text-base-white text-xl font-playfair-sc">Relato en Vivo</p>
                     </div>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Sección Galería de Recuerdos -->
-    <section id="galeria" class="py-20 px-6 md:px-12 bg-ocean-blue text-soft-rose section-fade-in">
-        <div class="max-w-6xl mx-auto text-center">
-            <h2 class="font-im-fell-dw-pica text-4xl md:text-5xl text-soft-rose mb-10 border-b-2 border-soft-rose pb-4 inline-block">Galería de Recuerdos</h2>
-            <p class="text-lg mb-12">Un vistazo a los momentos mágicos que hemos compartido, donde las historias cobraron vida.</p>
-            <div class="gallery-grid">
-                <!-- Ítem de Galería 1 (Imagen) -->
-                <div class="gallery-item">
-                    <img src="static/img/galeria1.jpg" alt="Foto de un evento de narración">
-                </div>
-                <!-- Ítem de Galería 2 (Video) -->
-                <div class="gallery-item">
-                    <video controls muted loop poster="static/img/galeria-video-poster.jpg">
-                        <source src="static/videos/galeria-video.mp4" type="video/mp4">
-                        Tu navegador no soporta el elemento de video.
-                    </video>
-                </div>
-                <!-- Ítem de Galería 3 (Imagen) -->
-                <div class="gallery-item">
-                    <img src="static/img/galeria2.jpg" alt="Foto de un narrador en acción">
-                </div>
-                <!-- Ítem de Galería 4 (Imagen) -->
-                <div class="gallery-item">
-                    <img src="static/img/galeria3.jpg" alt="Foto de la audiencia disfrutando">
-                </div>
-                <!-- Ítem de Galería 5 (Imagen) -->
-                <div class="gallery-item">
-                    <img src="static/img/galeria4.jpg" alt="Foto de un escenario con luces cálidas">
-                </div>
-                <!-- Ítem de Galería 6 (Video) -->
-                <div class="gallery-item">
-                    <video controls muted loop poster="static/img/galeria-video2-poster.jpg">
-                        <source src="static/videos/galeria-video2.mp4" type="video/mp4">
-                        Tu navegador no soporta el elemento de video.
-                    </video>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Sección La magia de contar (extra poética) -->
-    <section id="magia-contar" class="py-20 px-6 md:px-12 bg-soft-rose section-fade-in">
-        <div class="max-w-6xl mx-auto text-center">
-            <h2 class="font-im-fell-dw-pica text-4xl md:text-5xl text-vibrant-red mb-10 border-b-2 border-vibrant-red pb-4 inline-block">La Magia de Contar</h2>
-            <p class="text-lg text-text-dark mb-12">
-                El arte de narrar oralmente es un puente invisible que conecta almas, un fuego que ilumina la oscuridad y un eco que perdura en el tiempo.
-            </p>
-            <div class="grid md:grid-cols-2 gap-12 items-center">
-                <div class="text-left">
-                    <blockquote class="text-xl md:text-2xl italic text-text-dark mb-6 border-l-4 border-vibrant-red pl-4">
-                        "Un cuento es una semilla que se siembra en el corazón y florece en la imaginación."
-                        <footer class="text-lg mt-2 not-italic">- Proverbio Ancestral</footer>
+    <!-- La Magia de Contar Section -->
+    <section id="magia-contar" class="py-16 md:py-24 bg-base-white hidden-on-load">
+        <div class="container mx-auto px-6 lg:px-8">
+            <h2 class="text-4xl md:text-5xl font-im-fell text-vibrant-red text-center mb-12">La Magia de Contar</h2>
+            <div class="flex flex-col md:flex-row items-center gap-8 md:gap-12">
+                <div class="md:w-1/2">
+                    <p class="text-lg md:text-xl font-lora leading-relaxed mb-6">
+                        Contar es más que narrar; es invocar mundos, tejer realidades con el hilo invisible de la voz. Es un acto ancestral que nos conecta con nuestras raíces, con la sabiduría de quienes nos precedieron y con la infinita capacidad humana de soñar. Cada palabra pronunciada es una semilla que germina en la mente del oyente, floreciendo en imágenes, emociones y reflexiones.
+                    </p>
+                    <blockquote class="text-xl md:text-2xl font-playfair-sc italic text-forest-green border-l-4 border-brown pl-4 mb-6">
+                        "Un cuento es un río que fluye a través del tiempo, llevando consigo los ecos de mil voces."
                     </blockquote>
-                    <p class="text-lg md:text-xl text-text-dark leading-relaxed mb-6">
-                        En cada palabra pronunciada, en cada gesto, en cada silencio, reside el poder de transformar la realidad. La narración oral es un acto de amor, un regalo que se ofrece desde el alma para nutrir el espíritu. Es la forma más pura de comunicación, donde la voz se convierte en el pincel que pinta paisajes en la mente del oyente.
+                    <p class="text-lg md:text-xl font-lora leading-relaxed mb-8">
+                        En Puro Cuento, honramos esta magia. Creemos que cada historia tiene el poder de transformar, de consolar, de inspirar. Es un legado que se transmite de boca en boca, de corazón a corazón, manteniendo viva la llama de la imaginación en un mundo que a menudo olvida la belleza de lo simple.
                     </p>
-                    <p class="text-lg md:text-xl text-text-dark leading-relaxed">
-                        Explora a continuación algunos audios y videos que capturan la esencia de este arte milenario.
-                    </p>
-                </div>
-                <div>
-                    <!-- Imagen de ejemplo para esta sección, puedes reemplazarla con una ilustración onírica -->
-                    <img src="static/img/ilustracion_magia.jpg" alt="Ilustración onírica de luna y caminos" class="rounded-xl shadow-xl mx-auto w-full h-auto object-cover border-2 border-sky-blue">
-                </div>
-            </div>
-            <div class="mt-16 grid grid-cols-1 md:grid-cols-2 gap-8">
-                <!-- Audio Relato -->
-                <div class="bg-base-white rounded-xl shadow-lg p-6 border-2 border-forest-green">
-                    <h3 class="font-playfair-display-sc text-2xl text-forest-green mb-4">Audio Relato: "El Secreto del Río"</h3>
-                    <audio controls class="w-full rounded-lg">
-                        <source src="static/audio/audio-relato.mp3" type="audio/mpeg">
-                        Tu navegador no soporta el elemento de audio.
-                    </audio>
-                    <p class="text-sm text-gray-600 mt-4">Una historia mística sobre los orígenes del agua y la vida.</p>
-                </div>
-                <!-- Video Inspirador -->
-                <div class="bg-base-white rounded-xl shadow-lg p-6 border-2 border-forest-green">
-                    <h3 class="font-playfair-display-sc text-2xl text-forest-green mb-4">Video: "La Voz del Silencio"</h3>
-                    <div class="relative w-full" style="padding-bottom: 56.25%;">
-                        <!-- 16:9 Aspect Ratio -->
-                        <iframe class="absolute top-0 left-0 w-full h-full rounded-lg" src="https://www.youtube.com/embed/dQw4w9WgXcQ?si=0" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+                    <div class="mb-8">
+                        <h3 class="text-2xl font-playfair-sc text-brown mb-4">Escucha un Relato:</h3>
+                        <audio controls class="w-full rounded-lg shadow-md">
+                            <source src="static/audio/audio-relato.mp3" type="audio/mpeg">
+                            Tu navegador no soporta el elemento de audio.
+                        </audio>
                     </div>
-                    <p class="text-sm text-gray-600 mt-4">Un cortometraje sobre la importancia de la escucha activa en la narración.</p>
+                    <div class="mb-8">
+                        <h3 class="text-2xl font-playfair-sc text-brown mb-4">Mira la Magia en Acción:</h3>
+                        <div class="relative w-full" style="padding-top: 56.25%;">
+                            <iframe class="absolute top-0 left-0 w-full h-full rounded-lg shadow-md" src="https://www.youtube.com/embed/tV-TQ-TExxQ" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                        </div>
+                    </div>
+
+                    <!-- Gemini API Integration: Story Prompt Generator -->
+                    <div class="bg-ocean-blue rounded-3xl shadow-xl border-4 border-sky-blue p-8 mt-12 text-base-white">
+                        <h3 class="text-3xl font-playfair-sc text-vibrant-red mb-6 text-center">✨ Generador de Ideas de Cuento ✨</h3>
+                        <p class="text-lg font-lora mb-4 text-center">¿Necesitas un punto de partida para tu próxima historia? Introduce un tema o palabra clave y deja que la magia suceda.</p>
+                        <div class="space-y-4">
+                            <div>
+                                <label for="storyPromptInput" class="block text-lg font-lora mb-2">Tema o Palabra Clave:</label>
+                                <input type="text" id="storyPromptInput" class="w-full p-3 rounded-lg bg-base-white text-text-dark border border-brown focus:outline-none focus:ring-2 focus:ring-vibrant-red" placeholder="Ej: un bosque encantado, un objeto perdido, un viaje inesperado">
+                            </div>
+                            <button id="generateStoryPromptBtn" class="w-full bg-vibrant-red text-base-white font-playfair-sc text-xl py-3 rounded-full shadow-lg hover:bg-brown transition-colors duration-300 flex items-center justify-center">
+                                <svg class="animate-spin -ml-1 mr-3 h-5 w-5 text-base-white hidden" id="loadingSpinner" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                                    <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                                    <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                                </svg>
+                                Generar Idea
+                            </button>
+                            <div id="storyPromptResult" class="mt-6 p-4 bg-base-white text-text-dark rounded-lg border-2 border-forest-green shadow-inner min-h-[100px] flex items-center justify-center text-center italic">
+                                Tu idea de cuento aparecerá aquí...
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="md:w-1/2 flex justify-center">
+                    <img src="static\img\largo.jpg" alt="" class="rounded-3xl shadow-xl border-4 border-forest-green w-full max-w-md md:max-w-none h-auto object-cover">
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Sección Contacto y Contratación -->
-    <section id="contacto" class="py-20 px-6 md:px-12 bg-forest-green text-soft-rose section-fade-in">
-        <div class="max-w-4xl mx-auto text-center">
-            <h2 class="font-im-fell-dw-pica text-4xl md:text-5xl text-soft-rose mb-10 border-b-2 border-soft-rose pb-4 inline-block">Contacto y Contratación</h2>
-            <p class="text-lg mb-12">¿Listo para llenar tu evento de magia y asombro? Contáctanos para programar una función o un taller.</p>
-            <form class="bg-ocean-blue p-8 rounded-xl shadow-lg text-left border-2 border-sky-blue">
-                <div class="mb-6">
-                    <label for="nombre" class="block text-soft-rose text-lg font-bold mb-2">Nombre Completo</label>
-                    <input type="text" id="nombre" name="nombre" class="shadow appearance-none border rounded-lg w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:shadow-outline focus:border-forest-green" placeholder="Tu nombre">
+    <!-- Contacto y Contratación Section -->
+    <section id="contacto" class="py-16 md:py-24 bg-soft-rose hidden-on-load">
+        <div class="container mx-auto px-6 lg:px-8">
+            <h2 class="text-4xl md:text-5xl font-im-fell text-soft-rose text-center mb-12">Contacto y Contratación</h2>
+            <div class="flex flex-col lg:flex-row gap-12">
+                <div class="lg:w-2/3 bg-ocean-blue rounded-3xl shadow-2xl border-4 border-sky-blue p-8 md:p-10 text-base-white">
+                    <h3 class="text-3xl font-playfair-sc text-vibrant-red mb-6 text-center">Envíanos un Mensaje</h3>
+                    <form action="#" method="POST" class="space-y-6">
+                        <div>
+                            <label for="name" class="block text-lg font-lora mb-2">Nombre Completo</label>
+                            <input type="text" id="name" name="name" required class="w-full p-3 rounded-lg bg-base-white text-text-dark border border-brown focus:outline-none focus:ring-2 focus:ring-vibrant-red">
+                        </div>
+                        <div>
+                            <label for="email" class="block text-lg font-lora mb-2">Correo Electrónico</label>
+                            <input type="email" id="email" name="email" required class="w-full p-3 rounded-lg bg-base-white text-text-dark border border-brown focus:outline-none focus:ring-2 focus:ring-vibrant-red">
+                        </div>
+                        <div>
+                            <label for="phone" class="block text-lg font-lora mb-2">Teléfono (Opcional)</label>
+                            <input type="tel" id="phone" name="phone" class="w-full p-3 rounded-lg bg-base-white text-text-dark border border-brown focus:outline-none focus:ring-2 focus:ring-vibrant-red">
+                        </div>
+                        <div>
+                            <label for="event-type" class="block text-lg font-lora mb-2">Tipo de Evento</label>
+                            <select id="event-type" name="event-type" required class="w-full p-3 rounded-lg bg-base-white text-text-dark border border-brown focus:outline-none focus:ring-2 focus:ring-vibrant-red">
+                                <option value="">Selecciona un tipo de evento</option>
+                                <option value="festival">Festival Cultural</option>
+                                <option value="escolar">Evento Escolar</option>
+                                <option value="privado">Evento Privado/Familiar</option>
+                                <option value="corporativo">Evento Corporativo</option>
+                                <option value="otro">Otro</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label for="message" class="block text-lg font-lora mb-2">Tu Mensaje</label>
+                            <textarea id="message" name="message" rows="6" required class="w-full p-3 rounded-lg bg-base-white text-text-dark border border-brown focus:outline-none focus:ring-2 focus:ring-vibrant-red"></textarea>
+                        </div>
+                        <button type="submit" class="w-full bg-vibrant-red text-base-white font-playfair-sc text-xl py-3 rounded-full shadow-lg hover:bg-brown transition-colors duration-300">Enviar Mensaje</button>
+                    </form>
                 </div>
-                <div class="mb-6">
-                    <label for="email" class="block text-soft-rose text-lg font-bold mb-2">Correo Electrónico</label>
-                    <input type="email" id="email" name="email" class="shadow appearance-none border rounded-lg w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:shadow-outline focus:border-forest-green" placeholder="tu.email@ejemplo.com">
+                <div class="lg:w-1/3 p-8 md:p-10 bg-base-white rounded-3xl shadow-xl border-4 border-forest-green text-center lg:text-left">
+                    <h3 class="text-3xl font-playfair-sc text-brown mb-6">Información Directa</h3>
+                    <p class="text-lg font-lora mb-4"><strong class="text-vibrant-red">Correo:</strong> info@purocuento.com</p>
+                    <p class="text-lg font-lora mb-4"><strong class="text-vibrant-red">Teléfono:</strong> +57 310 123 4567</p>
+                    <p class="text-lg font-lora mb-4"><strong class="text-vibrant-red">Dirección:</strong> Calle de los Cuentos, #12-34, Ciudad Mágica, Colombia</p>
+                    <p class="text-lg font-lora mb-4"><strong class="text-vibrant-red">Horario:</strong> Lunes a Viernes, 9:00 AM - 6:00 PM</p>
                 </div>
-                <div class="mb-6">
-                    <label for="telefono" class="block text-soft-rose text-lg font-bold mb-2">Teléfono (Opcional)</label>
-                    <input type="tel" id="telefono" name="telefono" class="shadow appearance-none border rounded-lg w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:shadow-outline focus:border-forest-green" placeholder="+XX XXX XXX XXXX">
-                </div>
-                <div class="mb-6">
-                    <label for="tipo_evento" class="block text-soft-rose text-lg font-bold mb-2">Tipo de Evento/Consulta</label>
-                    <select id="tipo_evento" name="tipo_evento" class="shadow appearance-none border rounded-lg w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:shadow-outline focus:border-forest-green">
-                        <option value="">Selecciona una opción</option>
-                        <option value="funcion_publica">Función Pública</option>
-                        <option value="funcion_privada">Función Privada</option>
-                        <option value="taller">Taller de Narración</option>
-                        <option value="colaboracion">Colaboración</option>
-                        <option value="otro">Otro</option>
-                    </select>
-                </div>
-                <div class="mb-8">
-                    <label for="mensaje" class="block text-soft-rose text-lg font-bold mb-2">Tu Mensaje</label>
-                    <textarea id="mensaje" name="mensaje" rows="6" class="shadow appearance-none border rounded-lg w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:shadow-outline focus:border-forest-green" placeholder="Cuéntanos sobre tu evento o consulta..."></textarea>
-                </div>
-                <div class="text-center">
-                    <button type="submit" class="bg-sky-blue hover:bg-vibrant-red text-base-white font-bold py-3 px-8 rounded-full shadow-lg transition duration-300 ease-in-out transform hover:scale-105 border-2 border-soft-rose">
-                        Enviar Mensaje
-                    </button>
-                </div>
-            </form>
-            <div class="mt-12 text-center text-soft-rose">
-                <p class="text-xl font-bold mb-4">Datos Directos:</p>
-                <p class="text-lg mb-2"><span class="font-semibold">Correo:</span> <a href="mailto:contacto@purocuento.com" class="hover:underline text-sky-blue">contacto@purocuento.com</a></p>
-                <p class="text-lg mb-2"><span class="font-semibold">Teléfono:</span> +57 3XX XXX XXXX</p>
-                <p class="text-lg"><span class="font-semibold">Dirección:</span> Calle de los Cuentos, #123, Ciudad Imaginaria</p>
             </div>
         </div>
     </section>
 
-    <!-- Pie de Página -->
-    <footer class="bg-ocean-blue text-soft-rose py-12 px-6 md:px-12">
-        <div class="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-8 text-center md:text-left">
-            <!-- Redes Sociales -->
+    <!-- Footer -->
+    <footer class="bg-ocean-blue text-soft-rose py-12 hidden-on-load">
+        <div class="container mx-auto px-6 lg:px-8 grid grid-cols-1 md:grid-cols-3 gap-8 text-center md:text-left">
+            <!-- Social Media -->
             <div>
-                <h3 class="font-playfair-display-sc text-2xl text-sky-blue mb-4">Síguenos</h3>
-                <div class="flex justify-center md:justify-start space-x-6">
-                    <a href="#" class="text-soft-rose social-icon">
-                        <!-- Icono de Facebook (SVG real para mejor control de estilo) -->
-                        <svg class="w-8 h-8" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2C6.477 2 2 6.477 2 12s4.477 10 10 10 10-4.477 10-10S17.523 2 12 2zm3.204 8.948h-2.14V16h-2.5V10.948h-1.428V8.718h1.428V7.125c0-1.428.87-2.208 2.14-2.208h1.77V7.18h-1.04c-.65 0-.775.308-.775.76V8.718h1.865l-.24 2.23z"/></svg>
+                <h3 class="text-2xl font-playfair-sc mb-4">Síguenos</h3>
+                <div class="flex justify-center md:justify-start space-x-4">
+                    <a href="#" class="text-soft-rose hover:text-vibrant-red transition-colors duration-300">
+                        <svg class="w-8 h-8" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path fill-rule="evenodd" d="M22 12c0-5.523-4.477-10-10-10S2 6.477 2 12c0 4.991 3.657 9.128 8.438 9.878v-6.987h-2.54V12h2.54V9.797c0-2.506 1.492-3.89 3.777-3.89 1.094 0 2.238.195 2.238.195v2.46h-1.26c-1.243 0-1.63.771-1.63 1.562V12h2.773l-.443 2.89h-2.33V22C18.343 21.128 22 16.991 22 12z" clip-rule="evenodd" /></svg>
                     </a>
-                    <a href="https://www.instagram.com/purocuento_pereira" target="_blank" class="text-soft-rose social-icon">
-                        <!-- Icono de Instagram (SVG real) -->
-                        <svg class="w-8 h-8" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.07 1.645.07 4.85s-.012 3.584-.07 4.85c-.148 3.252-1.691 4.771-4.919 4.919-.058 1.265-.07 1.645-.07 4.85s.012 3.584.07 4.85c.148 3.252 1.691 4.771 4.919 4.919 1.265.058 1.645.07 4.85.07s3.584-.012 4.85-.07c3.252-.148 4.771-1.691 4.919-4.919.058-1.265.07-1.645.07-4.85s-.012-3.584-.07-4.85c-.148-3.252-1.691-4.771-4.919-4.919-1.265-.058-1.645-.07-4.85-.07zm0 1.95c3.155 0 3.522.012 4.76.069 2.654.121 3.861 1.29 3.982 3.982.057 1.238.069 1.605.069 4.76s-.012 3.522-.069 4.76c-.121 2.654-1.29 3.861-3.982 3.982-1.238.057-1.605.069-4.76.069s-3.522-.012-4.76-.069c-2.654-.121-3.861-1.29-3.982-3.982-.057-1.238-.069-1.605-.069-4.76s.012-3.522.069-4.76c.121-2.654 1.29-3.861 3.982-3.982 1.238-.057 1.605-.069 4.76-.069zm0 3.629c-2.341 0-4.242 1.9-4.242 4.242s1.9 4.242 4.242 4.242 4.242-1.9 4.242-4.242-1.9-4.242-4.242-4.242zm0 1.95c1.29 0 2.292 1.002 2.292 2.292s-1.002 2.292-2.292 2.292-2.292-1.002-2.292-2.292 1.002-2.292 2.292-2.292zm5.725-4.887c-.504 0-.913.409-.913.913s.409.913.913.913.913-.409.913-.913-.409-.913-.913-.913z"/></svg>
+                    <a href="#" class="text-soft-rose hover:text-vibrant-red transition-colors duration-300">
+                        <svg class="w-8 h-8" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path fill-rule="evenodd" d="M12.315 2c2.43 0 2.784.002 3.797.048.843.038 1.48.15 2.07.355.6.205 1.127.429 1.63.738.503.307.922.58 1.315.973.393.393.665.812.973 1.315.309.503.533 1.03.738 1.63.205.59.318 1.227.358 2.07.046 1.013.048 1.376.048 3.797s-.002 2.784-.048 3.797c-.038.843-.15 1.48-.355 2.07-.205.6-.429 1.127-.738 1.63-.307.503-.58 0-.973 1.315-.393.393-.812.665-1.315.973-.503.309-1.03.533-1.63.738-.59.205-1.227.318-2.07.358-1.013.046-1.376.048-3.797.048s-2.784-.002-3.797-.048c-.843-.038-1.48-.15-2.07-.355-.6-.205-1.127-.429-1.63-.738-.503-.307-.922-.58-1.315-.973-.393-.393-.665-.812-.973-1.315-.309-.503-.533-1.03-.738-1.63-.205-.59-.318-1.227-.358-2.07-.046-1.013-.048-1.376-.048-3.797s.002-2.784.048-3.797c.038-.843.15-1.48.355-2.07.205-.6.429-1.127.738-1.63.307-.503.58-.922.973-1.315.393.393.812.665 1.315.973.503.309 1.03.533 1.63.738.59.205 1.227.318 2.07.358C9.526 2.002 9.889 2 12.315 2zM12 7a5 5 0 100 10 5 5 0 000-10zm0 2a3 3 0 110 6 3 3 0 010-6z" clip-rule="evenodd" /></svg>
                     </a>
-                    <a href="#" class="text-soft-rose social-icon">
-                        <!-- Icono de YouTube (SVG real) -->
-                        <svg class="w-8 h-8" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2C6.477 2 2 6.477 2 12s4.477 10 10 10 10-4.477 10-10S17.523 2 12 2zm3.204 8.948h-2.14V16h-2.5V10.948h-1.428V8.718h1.428V7.125c0-1.428.87-2.208 2.14-2.208h1.77V7.18h-1.04c-.65 0-.775.308-.775.76V8.718h1.865l-.24 2.23z"/></svg>
+                    <a href="#" class="text-soft-rose hover:text-vibrant-red transition-colors duration-300">
+                        <svg class="w-8 h-8" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path d="M19.615 3.184c-1.004-.276-2.01-.42-3.004-.428C13.674 2.71 12 2.71 12 2.71s-1.674 0-4.611.04C6.39 2.764 5.384 2.908 4.38 3.184 3.375 3.46 2.5 4.135 2.02 5.09c-.48 1.04-.57 2.07-.57 3.09c0 2.45 0 4.89 0 7.34c0 1.02.09 2.05.57 3.09.48 1.04.995 1.715 2.02 1.991 1.004.276 2.01.42 3.004.428C10.326 21.29 12 21.29 12 21.29s1.674 0 4.611-.04c1.004-.038 2.01-.182 3.004-.428 1.005-.276 1.88-1.04 2.36-1.991.48-1.04.57-2.07.57-3.09c0-2.45 0-4.89 0-7.34c0-1.02-.09-2.05-.57-3.09-.48-1.04-.995-1.715-2.02-1.991zM9.545 15.545V8.455L15.455 12l-5.91 3.545z" /></svg>
                     </a>
                 </div>
             </div>
-            <!-- Créditos -->
-            <div>
-                <h3 class="font-playfair-display-sc text-2xl text-sky-blue mb-4">Créditos</h3>
-                <p class="text-sm">&copy; 2025 Puro Cuento. Todos los derechos reservados.</p>
-                <p class="text-sm">Diseño y desarrollo por [Tu Nombre/Empresa]</p>
+            <!-- Copyright and Credits -->
+            <div class="md:col-span-1 text-center">
+                <p class="text-lg font-lora mb-2">&copy; 2025 Puro Cuento. Todos los derechos reservados.</p>
+                <p class="text-sm font-inter">Diseñado con amor por la palabra viva.</p>
             </div>
-            <!-- Newsletter y Recursos -->
+            <!-- Newsletter and Resources -->
             <div>
-                <h3 class="font-playfair-display-sc text-2xl text-sky-blue mb-4">Mantente Conectado</h3>
-                <p class="text-sm mb-4">Suscríbete a nuestro newsletter para recibir las últimas historias y noticias de eventos.</p>
-                <form class="flex flex-col sm:flex-row gap-2 justify-center md:justify-start">
-                    <input type="email" placeholder="Tu correo electrónico" class="p-2 rounded-lg text-gray-800 w-full sm:w-auto flex-grow">
-                    <button type="submit" class="bg-vibrant-red hover:bg-sky-blue text-base-white py-2 px-4 rounded-lg transition duration-300 ease-in-out">Suscribir</button>
+                <h3 class="text-2xl font-playfair-sc mb-4">Mantente Conectado</h3>
+                <form class="flex flex-col sm:flex-row gap-2 mb-4">
+                    <input type="email" placeholder="Tu correo electrónico" class="p-2 rounded-lg bg-base-white text-text-dark border border-brown focus:outline-none focus:ring-2 focus:ring-vibrant-red flex-grow">
+                    <button type="submit" class="bg-vibrant-red text-base-white font-inter py-2 px-4 rounded-lg hover:bg-brown transition-colors duration-300">Suscribirse</button>
                 </form>
-                <p class="text-sm mt-4"><a href="#" class="hover:underline text-sky-blue">Recursos para Narradores</a></p>
+                <a href="#" class="text-soft-rose hover:text-vibrant-red transition-colors duration-300 font-lora text-lg">Recursos para Narradores</a>
             </div>
         </div>
     </footer>
 
     <script>
-        // JavaScript para el efecto de scroll animado (fade-in)
-        document.addEventListener('DOMContentLoaded', function() {
-            const sections = document.querySelectorAll('.section-fade-in');
+        // JavaScript for Fade-in on Scroll
+        document.addEventListener('DOMContentLoaded', () => {
+            const sections = document.querySelectorAll('section, footer');
 
             const observerOptions = {
                 root: null,
@@ -446,14 +528,129 @@
             const observer = new IntersectionObserver((entries, observer) => {
                 entries.forEach(entry => {
                     if (entry.isIntersecting) {
-                        entry.target.classList.add('is-visible');
-                        observer.unobserve(entry.target); // Dejar de observar una vez visible
+                        entry.target.classList.add('animate-fade-in');
+                        entry.target.classList.remove('hidden-on-load');
+                        observer.unobserve(entry.target); // Stop observing once animated
                     }
                 });
             }, observerOptions);
 
             sections.forEach(section => {
+                section.classList.add('hidden-on-load'); // Hide all sections initially
                 observer.observe(section);
+            });
+
+            // JavaScript for Narrator Carousel
+            const carousel = document.getElementById('narratorCarousel');
+            const prevBtn = document.getElementById('prevBtn');
+            const nextBtn = document.getElementById('nextBtn');
+            const paginationDotsContainer = document.getElementById('paginationDots');
+            const carouselItems = carousel.querySelectorAll('.carousel-item');
+            let currentItemIndex = 0;
+
+            // Function to update dots
+            const updateDots = () => {
+                paginationDotsContainer.innerHTML = ''; // Clear existing dots
+                carouselItems.forEach((_, index) => {
+                    const dot = document.createElement('button');
+                    dot.classList.add('w-3', 'h-3', 'rounded-full', 'bg-brown', 'transition-colors', 'duration-300');
+                    if (index === currentItemIndex) {
+                        dot.classList.add('bg-vibrant-red');
+                    }
+                    dot.addEventListener('click', () => {
+                        currentItemIndex = index;
+                        scrollToItem(currentItemIndex);
+                    });
+                    paginationDotsContainer.appendChild(dot);
+                });
+            };
+
+            // Function to scroll to a specific item
+            const scrollToItem = (index) => {
+                const itemWidth = carousel.offsetWidth; // Get the visible width of the carousel
+                carousel.scrollLeft = itemWidth * index;
+                updateDots();
+            };
+
+            // Event Listeners for navigation buttons
+            prevBtn.addEventListener('click', () => {
+                currentItemIndex = (currentItemIndex > 0) ? currentItemIndex - 1 : carouselItems.length - 1;
+                scrollToItem(currentItemIndex);
+            });
+
+            nextBtn.addEventListener('click', () => {
+                currentItemIndex = (currentItemIndex < carouselItems.length - 1) ? currentItemIndex + 1 : 0;
+                scrollToItem(currentItemIndex);
+            });
+
+            // Update dots on scroll for manual scrolling
+            carousel.addEventListener('scroll', () => {
+                const scrollLeft = carousel.scrollLeft;
+                const itemWidth = carousel.offsetWidth;
+                const newIndex = Math.round(scrollLeft / itemWidth);
+                if (newIndex !== currentItemIndex) {
+                    currentItemIndex = newIndex;
+                    updateDots();
+                }
+            });
+
+            // Initial setup
+            updateDots();
+            // Adjust carousel item width on resize (important for responsiveness)
+            window.addEventListener('resize', () => {
+                scrollToItem(currentItemIndex); // Re-align after resize
+            });
+
+            // Gemini API Integration: Story Prompt Generator Logic
+            const storyPromptInput = document.getElementById('storyPromptInput');
+            const generateStoryPromptBtn = document.getElementById('generateStoryPromptBtn');
+            const storyPromptResult = document.getElementById('storyPromptResult');
+            const loadingSpinner = document.getElementById('loadingSpinner');
+
+            generateStoryPromptBtn.addEventListener('click', async () => {
+                const theme = storyPromptInput.value.trim();
+                if (!theme) {
+                    storyPromptResult.textContent = "Por favor, introduce un tema o palabra clave para generar una idea.";
+                    return;
+                }
+
+                storyPromptResult.textContent = ''; // Clear previous result
+                loadingSpinner.classList.remove('hidden'); // Show loading spinner
+                generateStoryPromptBtn.disabled = true; // Disable button during loading
+
+                try {
+                    let chatHistory = [];
+                    const prompt = `Genera una idea de cuento corta y creativa, de aproximadamente 50-80 palabras, basada en el siguiente tema o palabra clave: "${theme}". La idea debe ser inspiradora y apta para narración oral.`;
+                    chatHistory.push({ role: "user", parts: [{ text: prompt }] });
+
+                    const payload = { contents: chatHistory };
+                    const apiKey = ""; // Canvas will provide this API key at runtime
+                    const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`;
+
+                    const response = await fetch(apiUrl, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(payload)
+                    });
+
+                    const result = await response.json();
+
+                    if (result.candidates && result.candidates.length > 0 &&
+                        result.candidates[0].content && result.candidates[0].content.parts &&
+                        result.candidates[0].content.parts.length > 0) {
+                        const text = result.candidates[0].content.parts[0].text;
+                        storyPromptResult.textContent = text;
+                    } else {
+                        storyPromptResult.textContent = "No se pudo generar una idea de cuento. Intenta de nuevo.";
+                        console.error('Unexpected API response structure:', result);
+                    }
+                } catch (error) {
+                    storyPromptResult.textContent = "Ocurrió un error al conectar con el generador de ideas. Intenta de nuevo más tarde.";
+                    console.error('Error generating story prompt:', error);
+                } finally {
+                    loadingSpinner.classList.add('hidden'); // Hide loading spinner
+                    generateStoryPromptBtn.disabled = false; // Re-enable button
+                }
             });
         });
     </script>
